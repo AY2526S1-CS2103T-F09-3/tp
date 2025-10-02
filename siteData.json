@@ -10,7 +10,8 @@
         "lin-haoyue": "Lin Haoyue",
         "fang-han": "Fang Han",
         "di-heng": "Di Heng",
-        "shriniket-subramanian": "Shriniket Subramanian"
+        "shriniket-subramanian": "Shriniket Subramanian",
+        "florian-viorel-tanely": "Florian Viorel Tanely"
       },
       "headingKeywords": {}
     },
@@ -155,6 +156,14 @@
       "title": "Haoyue's Project Portfolio Page",
       "headings": {
         "project-talentnexus": "Project: TalentNexus"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/izumi_kyouka.md",
+      "title": "Florian's Project Portfolio Page",
+      "headings": {
+        "project-talent-nexus": "Project: Talent Nexus"
       },
       "headingKeywords": {}
     },
