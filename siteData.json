@@ -8,6 +8,7 @@
         "about-us": "About Us",
         "project-team": "Project team",
         "fang-han": "Fang Han",
+        "di-heng": "Di Heng",
         "shriniket-subramanian": "Shriniket Subramanian"
       },
       "headingKeywords": {}
@@ -129,6 +130,14 @@
       "title": "",
       "headings": {
         "addressbook-level-3": "AddressBook Level-3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/diheng.md",
+      "title": "Di Heng's Project Portfolio Page",
+      "headings": {
+        "project-talentnexus": "Project: TalentNexus"
       },
       "headingKeywords": {}
     },
