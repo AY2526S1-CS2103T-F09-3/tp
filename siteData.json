@@ -7,10 +7,7 @@
       "headings": {
         "about-us": "About Us",
         "project-team": "Project team",
-        "john-doe": "John Doe",
-        "jane-doe": "Jane Doe",
-        "johnny-doe": "Johnny Doe",
-        "jean-doe": "Jean Doe",
+        "fang-han": "Fang Han",
         "shriniket-subramanian": "Shriniket Subramanian"
       },
       "headingKeywords": {}
@@ -132,6 +129,14 @@
       "title": "",
       "headings": {
         "addressbook-level-3": "AddressBook Level-3"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/fanghan.md",
+      "title": "Fang Han's Project Portfolio Page",
+      "headings": {
+        "project-talentnexus": "Project: TalentNexus"
       },
       "headingKeywords": {}
     },
