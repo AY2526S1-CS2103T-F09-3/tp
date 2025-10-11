@@ -8,18 +8,18 @@ import seedu.address.commons.util.ToStringBuilder;
 /**
  * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
  */
-public class NameContainsKeywordsPredicate implements Predicate<Recruit> {
+public class EmailContainsKeywordPredicate implements Predicate<Recruit> {
     private final List<String> keywords;
 
-    public NameContainsKeywordsPredicate(List<String> keywords) {
+    public EmailContainsKeywordPredicate(List<String> keywords) {
         this.keywords = keywords;
     }
 
     @Override
     public boolean test(Recruit recruit) {
         return keywords.stream()
-                .anyMatch(keyword -> recruit.getNames().stream().anyMatch(n -> n.fullName.toLowerCase()
-                        .contains(keyword.toLowerCase())));
+                .anyMatch(keyword -> recruit.getEmail().value.toLowerCase()
+                        .contains(keyword.toLowerCase()));
     }
 
     @Override
@@ -29,11 +29,11 @@ public class NameContainsKeywordsPredicate implements Predicate<Recruit> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof NameContainsKeywordsPredicate)) {
+        if (!(other instanceof EmailContainsKeywordPredicate)) {
             return false;
         }
 
-        NameContainsKeywordsPredicate otherNameContainsKeywordsPredicate = (NameContainsKeywordsPredicate) other;
+        EmailContainsKeywordPredicate otherNameContainsKeywordsPredicate = (EmailContainsKeywordPredicate) other;
         return keywords.equals(otherNameContainsKeywordsPredicate.keywords);
     }
 

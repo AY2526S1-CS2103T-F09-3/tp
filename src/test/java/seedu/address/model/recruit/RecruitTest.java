@@ -92,9 +92,9 @@ public class RecruitTest {
 
     @Test
     public void toStringMethod() {
-        String expected = Recruit.class.getCanonicalName() + "{id=" + ALICE.getID() + ", name=" + ALICE.getName()
-                + ", phone=" + ALICE.getPhone() + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
-                + ", tags=" + ALICE.getTags() + "}";
+        String expected = Recruit.class.getCanonicalName() + "{id=" + ALICE.getID() + ", name=[" + ALICE.getName()
+                + "], phone=[" + ALICE.getPhone() + "], email=[" + ALICE.getEmail() + "], address=["
+                + ALICE.getAddress() + "], tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }
 }
