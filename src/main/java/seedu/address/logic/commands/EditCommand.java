@@ -98,10 +98,10 @@ public class EditCommand extends Command {
     private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor editRecruitDescriptor) {
         assert recruitToEdit != null;
         UUID updatedId = editRecruitDescriptor.getID().orElse(recruitToEdit.getID());
-        Name updatedName = editRecruitDescriptor.getName().orElse(recruitToEdit.getName());
-        Phone updatedPhone = editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhone());
-        Email updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmail());
-        Address updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddress());
+        List<Name> updatedName = editRecruitDescriptor.getName().orElse(recruitToEdit.getNames());
+        List<Phone> updatedPhone = editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhones());
+        List<Email> updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails());
+        List<Address> updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses());
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
 
         return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
@@ -161,10 +161,10 @@ public class EditCommand extends Command {
      */
     public static class EditRecruitDescriptor {
         private UUID id;
-        private Name name;
-        private Phone phone;
-        private Email email;
-        private Address address;
+        private List<Name> name;
+        private List<Phone> phone;
+        private List<Email> email;
+        private List<Address> address;
         private Set<Tag> tags;
 
         public EditRecruitDescriptor() {}
@@ -175,10 +175,10 @@ public class EditCommand extends Command {
          */
         public EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
             setID(toCopy.id);
-            setName(toCopy.name);
-            setPhone(toCopy.phone);
-            setEmail(toCopy.email);
-            setAddress(toCopy.address);
+            setNames(toCopy.name);
+            setPhones(toCopy.phone);
+            setEmails(toCopy.email);
+            setAddresses(toCopy.address);
             setTags(toCopy.tags);
         }
 
@@ -195,35 +195,35 @@ public class EditCommand extends Command {
         public Optional<UUID> getID() {
             return Optional.ofNullable(id);
         }
-        public void setName(Name name) {
+        public void setNames(List<Name> name) {
             this.name = name;
         }
 
-        public Optional<Name> getName() {
+        public Optional<List<Name>> getName() {
             return Optional.ofNullable(name);
         }
 
-        public void setPhone(Phone phone) {
+        public void setPhones(List<Phone> phone) {
             this.phone = phone;
         }
 
-        public Optional<Phone> getPhone() {
+        public Optional<List<Phone>> getPhone() {
             return Optional.ofNullable(phone);
         }
 
-        public void setEmail(Email email) {
+        public void setEmails(List<Email> email) {
             this.email = email;
         }
 
-        public Optional<Email> getEmail() {
+        public Optional<List<Email>> getEmail() {
             return Optional.ofNullable(email);
         }
 
-        public void setAddress(Address address) {
+        public void setAddresses(List<Address> address) {
             this.address = address;
         }
 
-        public Optional<Address> getAddress() {
+        public Optional<List<Address>> getAddress() {
             return Optional.ofNullable(address);
         }
 

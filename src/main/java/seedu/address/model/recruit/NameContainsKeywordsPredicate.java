@@ -18,8 +18,8 @@ public class NameContainsKeywordsPredicate implements Predicate<Recruit> {
     @Override
     public boolean test(Recruit recruit) {
         return keywords.stream()
-                .anyMatch(keyword -> recruit.getName().fullName.toLowerCase()
-                        .contains(keyword.toLowerCase()));
+                .anyMatch(keyword -> recruit.getNames().stream().anyMatch(n -> n.fullName.toLowerCase()
+                        .contains(keyword.toLowerCase())));
     }
 
     @Override

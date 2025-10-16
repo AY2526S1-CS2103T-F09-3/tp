@@ -2,8 +2,10 @@ package seedu.address.model.recruit;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -19,12 +21,12 @@ public class Recruit {
 
     // Identity fields
     private final UUID id;
-    private final Name name;
-    private final Phone phone;
-    private final Email email;
+    private final ArrayList<Name> names;
+    private final ArrayList<Phone> phones;
+    private final ArrayList<Email> emails;
 
     // Data fields
-    private final Address address;
+    private final ArrayList<Address> addresses;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -32,10 +34,36 @@ public class Recruit {
      */
     public Recruit(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
+        this.names = new ArrayList<>(List.of(name));
+        this.phones = new ArrayList<>(List.of(phone));
+        this.emails = new ArrayList<>(List.of(email));
+        this.addresses = new ArrayList<>(List.of(address));
+        this.tags.addAll(tags);
+        this.id = UUID.randomUUID();
+    }
+
+    /**
+     * Every field except for id must be present and not null.
+     */
+    public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.names = new ArrayList<>(List.of(name));
+        this.phones = new ArrayList<>(List.of(phone));
+        this.emails = new ArrayList<>(List.of(email));
+        this.addresses = new ArrayList<>(List.of(address));
+        this.tags.addAll(tags);
+        this.id = id;
+    }
+
+    /**
+     * Every field except for id must be present and not null.
+     */
+    public Recruit(List<Name> name, List<Phone> phone, List<Email> email, List<Address> address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.names = new ArrayList<>(name);
+        this.phones = new ArrayList<>(phone);
+        this.emails = new ArrayList<>(email);
+        this.addresses = new ArrayList<>(address);
         this.tags.addAll(tags);
         this.id = UUID.randomUUID();
     }
@@ -43,12 +71,13 @@ public class Recruit {
     /**
      * Every field must be present and not null.
      */
-    public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Recruit(UUID id, List<Name> name, List<Phone> phone, List<Email> email,
+            List<Address> address, Set<Tag> tags) {
         requireAllNonNull(id, name, phone, email, address, tags);
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
+        this.names = new ArrayList<>(name);
+        this.phones = new ArrayList<>(phone);
+        this.emails = new ArrayList<>(email);
+        this.addresses = new ArrayList<>(address);
         this.tags.addAll(tags);
         this.id = id;
     }
@@ -58,19 +87,35 @@ public class Recruit {
     }
 
     public Name getName() {
-        return name;
+        return names.get(0);
+    }
+
+    public List<Name> getNames() {
+        return this.names;
     }
 
     public Phone getPhone() {
-        return phone;
+        return phones.get(0);
+    }
+
+    public List<Phone> getPhones() {
+        return this.phones;
     }
 
     public Email getEmail() {
-        return email;
+        return emails.get(0);
+    }
+
+    public List<Email> getEmails() {
+        return this.emails;
     }
 
     public Address getAddress() {
-        return address;
+        return addresses.get(0);
+    }
+
+    public List<Address> getAddresses() {
+        return this.addresses;
     }
 
     /**
@@ -111,27 +156,27 @@ public class Recruit {
 
         Recruit otherRecruit = (Recruit) other;
         return id.equals(otherRecruit.id)
-                && name.equals(otherRecruit.name)
-                && phone.equals(otherRecruit.phone)
-                && email.equals(otherRecruit.email)
-                && address.equals(otherRecruit.address)
+                && names.equals(otherRecruit.names)
+                && phones.equals(otherRecruit.phones)
+                && emails.equals(otherRecruit.emails)
+                && addresses.equals(otherRecruit.addresses)
                 && tags.equals(otherRecruit.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(names, phones, emails, addresses, tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("id", id)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
+                .add("name", names)
+                .add("phone", phones)
+                .add("email", emails)
+                .add("address", addresses)
                 .add("tags", tags)
                 .toString();
     }

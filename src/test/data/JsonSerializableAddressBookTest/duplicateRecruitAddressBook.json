@@ -1,16 +1,16 @@
 {
   "recruits": [ {
     "id": "eac9b117-2ded-42c3-9264-ccf3dfaaa950",
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "email": "alice@example.com",
-    "address": "123, Jurong West Ave 6, #08-111",
+    "names": ["Alice Pauline"],
+    "phones": ["94351253"],
+    "emails": ["alice@example.com"],
+    "addresses": ["123, Jurong West Ave 6, #08-111"],
     "tags": [ "friends" ]
   }, {
     "id": "eac9b117-2ded-42c3-9264-ccf3dfaaa950",
-    "name": "Alice Pauline",
-    "phone": "94351253",
-    "email": "pauline@example.com",
-    "address": "4th street"
+    "names": ["Alice Pauline"],
+    "phones": ["94351253"],
+    "emails": ["pauline@example.com"],
+    "addresses": ["4th street"]
   } ]
 }
