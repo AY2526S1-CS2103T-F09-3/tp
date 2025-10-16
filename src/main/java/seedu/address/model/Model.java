@@ -76,6 +76,8 @@ public interface Model {
      */
     void setRecruit(Recruit target, Recruit editedRecruit);
 
+    void sortRecruits();
+
     /** Returns an unmodifiable view of the filtered recruit list */
     ObservableList<Recruit> getFilteredRecruitList();
 
