@@ -149,6 +149,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void sortRecruits() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Recruit> getFilteredRecruitList() {
             throw new AssertionError("This method should not be called.");
         }
