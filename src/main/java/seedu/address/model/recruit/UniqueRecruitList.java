@@ -3,6 +3,7 @@ package seedu.address.model.recruit;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -146,5 +147,9 @@ public class UniqueRecruitList implements Iterable<Recruit> {
             }
         }
         return true;
+    }
+
+    public void sort(Comparator<Recruit> comparator) {
+        FXCollections.sort(internalList, comparator);
     }
 }

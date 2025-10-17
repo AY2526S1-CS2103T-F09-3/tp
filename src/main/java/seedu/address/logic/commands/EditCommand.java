@@ -49,7 +49,7 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit: %1$s";
+    public static final String MESSAGE_EDIT_RECRUIT_SUCCESS = "Edited Recruit:\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book.";
     private static final String DELTA_FORMAT = " -> %s";
@@ -98,10 +98,10 @@ public class EditCommand extends Command {
     private static Recruit createEditedRecruit(Recruit recruitToEdit, EditRecruitDescriptor editRecruitDescriptor) {
         assert recruitToEdit != null;
         UUID updatedId = editRecruitDescriptor.getID().orElse(recruitToEdit.getID());
-        Name updatedName = editRecruitDescriptor.getName().orElse(recruitToEdit.getName());
-        Phone updatedPhone = editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhone());
-        Email updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmail());
-        Address updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddress());
+        List<Name> updatedName = editRecruitDescriptor.getName().orElse(recruitToEdit.getNames());
+        List<Phone> updatedPhone = editRecruitDescriptor.getPhone().orElse(recruitToEdit.getPhones());
+        List<Email> updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails());
+        List<Address> updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses());
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
 
         return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
@@ -135,16 +135,16 @@ public class EditCommand extends Command {
         final StringBuilder builder = new StringBuilder();
         builder.append(person.getName())
                 .append(delta.getName().map(n -> String.format(DELTA_FORMAT, n)).orElse(""))
-                .append("; Phone: ")
+                .append("\n Phone: ")
                 .append(person.getPhone())
                 .append(delta.getPhone().map(p -> String.format(DELTA_FORMAT, p)).orElse(""))
-                .append("; Email: ")
+                .append("\n Email: ")
                 .append(person.getEmail())
                 .append(delta.getEmail().map(e -> String.format(DELTA_FORMAT, e)).orElse(""))
-                .append("; Address: ")
+                .append("\n Address: ")
                 .append(person.getAddress())
                 .append(delta.getAddress().map(a -> String.format(DELTA_FORMAT, a)).orElse(""))
-                .append("; Tags: ");
+                .append("\n Tags: ");
         person.getTags().forEach(builder::append);
 
         Optional<Set<Tag>> deltaTags = delta.getTags();
@@ -161,10 +161,10 @@ public class EditCommand extends Command {
      */
     public static class EditRecruitDescriptor {
         private UUID id;
-        private Name name;
-        private Phone phone;
-        private Email email;
-        private Address address;
+        private List<Name> name;
+        private List<Phone> phone;
+        private List<Email> email;
+        private List<Address> address;
         private Set<Tag> tags;
 
         public EditRecruitDescriptor() {}
@@ -175,10 +175,10 @@ public class EditCommand extends Command {
          */
         public EditRecruitDescriptor(EditRecruitDescriptor toCopy) {
             setID(toCopy.id);
-            setName(toCopy.name);
-            setPhone(toCopy.phone);
-            setEmail(toCopy.email);
-            setAddress(toCopy.address);
+            setNames(toCopy.name);
+            setPhones(toCopy.phone);
+            setEmails(toCopy.email);
+            setAddresses(toCopy.address);
             setTags(toCopy.tags);
         }
 
@@ -195,35 +195,35 @@ public class EditCommand extends Command {
         public Optional<UUID> getID() {
             return Optional.ofNullable(id);
         }
-        public void setName(Name name) {
+        public void setNames(List<Name> name) {
             this.name = name;
         }
 
-        public Optional<Name> getName() {
+        public Optional<List<Name>> getName() {
             return Optional.ofNullable(name);
         }
 
-        public void setPhone(Phone phone) {
+        public void setPhones(List<Phone> phone) {
             this.phone = phone;
         }
 
-        public Optional<Phone> getPhone() {
+        public Optional<List<Phone>> getPhone() {
             return Optional.ofNullable(phone);
         }
 
-        public void setEmail(Email email) {
+        public void setEmails(List<Email> email) {
             this.email = email;
         }
 
-        public Optional<Email> getEmail() {
+        public Optional<List<Email>> getEmail() {
             return Optional.ofNullable(email);
         }
 
-        public void setAddress(Address address) {
+        public void setAddresses(List<Address> address) {
             this.address = address;
         }
 
-        public Optional<Address> getAddress() {
+        public Optional<List<Address>> getAddress() {
             return Optional.ofNullable(address);
         }
 

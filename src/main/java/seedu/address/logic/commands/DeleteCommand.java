@@ -3,8 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -19,30 +20,33 @@ public class DeleteCommand extends Command {
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the recruit identified by the index number used in the displayed recruit list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+            + ": Deletes the recruit identified by recruit's ID.\n"
+            + "Parameters: ID (must be a UUID string)\n"
+            + "Example: " + COMMAND_WORD + " eac9b117-2ded-42c3-9264-ccf3dfaaa950";
 
-    public static final String MESSAGE_DELETE_RECRUIT_SUCCESS = "Deleted Recruit: %1$s";
+    public static final String MESSAGE_DELETE_RECRUIT_SUCCESS = "Deleted Recruit:\n%1$s";
 
-    private final Index targetIndex;
+    private final UUID targetID;
 
-    public DeleteCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+    public DeleteCommand(UUID id) {
+        this.targetID = id;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Recruit> lastShownList = model.getFilteredRecruitList();
+        Optional<Recruit> recruitToDelete = lastShownList.stream()
+                .filter(recruit -> recruit.getID().equals(this.targetID))
+                .findFirst();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+
+        if (recruitToDelete.isEmpty()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
         }
 
-        Recruit recruitToDelete = lastShownList.get(targetIndex.getZeroBased());
-        model.deleteRecruit(recruitToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_RECRUIT_SUCCESS, Messages.format(recruitToDelete)));
+        model.deleteRecruit(recruitToDelete.get());
+        return new CommandResult(String.format(MESSAGE_DELETE_RECRUIT_SUCCESS, Messages.format(recruitToDelete.get())));
     }
 
     @Override
@@ -57,13 +61,13 @@ public class DeleteCommand extends Command {
         }
 
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetIndex.equals(otherDeleteCommand.targetIndex);
+        return targetID.equals(otherDeleteCommand.targetID);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
+                .add("targetID", targetID)
                 .toString();
     }
 }

@@ -22,6 +22,7 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String MESSAGE_INVALID_ID = "ID is not in UUID format";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -48,7 +49,7 @@ public class ParserUtil {
         try {
             return UUID.fromString(trimmedId);
         } catch (IllegalArgumentException e) {
-            throw new ParseException("Invalid UUID format.");
+            throw new ParseException(MESSAGE_INVALID_ID);
         }
     }
     /**

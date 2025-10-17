@@ -15,6 +15,7 @@ public class Messages {
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX = "The recruit index provided is invalid";
+    public static final String MESSAGE_INVALID_RECRUIT_ID = "The recruit id provided is invalid";
     public static final String MESSAGE_RECRUITS_LISTED_OVERVIEW = "%1$d recruits listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
@@ -37,13 +38,13 @@ public class Messages {
     public static String format(Recruit recruit) {
         final StringBuilder builder = new StringBuilder();
         builder.append(recruit.getName())
-                .append("; Phone: ")
+                .append("\n Phone: ")
                 .append(recruit.getPhone())
-                .append("; Email: ")
+                .append("\n Email: ")
                 .append(recruit.getEmail())
-                .append("; Address: ")
+                .append("\n Address: ")
                 .append(recruit.getAddress())
-                .append("; Tags: ");
+                .append("\n Tags: ");
         recruit.getTags().forEach(builder::append);
         return builder.toString();
     }

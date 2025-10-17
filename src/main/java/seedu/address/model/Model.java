@@ -1,6 +1,8 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -76,8 +78,16 @@ public interface Model {
      */
     void setRecruit(Recruit target, Recruit editedRecruit);
 
+    void sortRecruits();
+
     /** Returns an unmodifiable view of the filtered recruit list */
     ObservableList<Recruit> getFilteredRecruitList();
+
+    /**
+     * Returns the recruit with the given ID.
+     * @throws IllegalArgumentException if there is no recruit with the given ID.
+     */
+    Optional<Recruit> getFilteredRecruitByID(UUID id);
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
