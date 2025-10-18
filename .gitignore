@@ -9,6 +9,9 @@ src/main/resources/docs/
 /out/
 /*.iml
 
+# VSCodium files
+/.vscode
+
 # Storage/log files
 /data/
 /config.json
