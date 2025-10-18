@@ -169,6 +169,21 @@ public class AddCommandTest {
         public void updateFilteredRecruitList(Predicate<Recruit> predicate) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void commitAddressBook(String command) {
+            // does nothing
+        }
+
+        @Override
+        public String undoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canUndoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**
