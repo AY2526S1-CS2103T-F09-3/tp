@@ -29,15 +29,27 @@ public class FindCommandParserTest {
     }
 
     @Test
+    public void parse_without_flag_returns_name_search_FindCommand() {
+        // no leading and trailing whitespaces
+        FindCommand expectedFindCommand =
+                new FindCommand(new NestedOrPredicate(
+                        new FieldContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"), SEARCH_PREFIX_NAME)));
+        assertParseSuccess(parser, "Alice|Bob", expectedFindCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "\n Alice| \n \t Bob  \t", expectedFindCommand);
+    }
+
+    @Test
     public void parse_validArgs_returnsFindCommand() {
         // no leading and trailing whitespaces
         FindCommand expectedFindCommand =
                 new FindCommand(new NestedOrPredicate(
                         new FieldContainsKeywordsPredicate(Arrays.asList("Alice", "Bob"), SEARCH_PREFIX_NAME)));
-        assertParseSuccess(parser, "find -n Alice|Bob", expectedFindCommand);
+        assertParseSuccess(parser, " -n Alice|Bob", expectedFindCommand);
 
         // multiple whitespaces between keywords
-        assertParseSuccess(parser, "find \n -n Alice| \n \t Bob  \t", expectedFindCommand);
+        assertParseSuccess(parser, "\n -n Alice| \n \t Bob  \t", expectedFindCommand);
     }
 
     @Test
@@ -46,8 +58,8 @@ public class FindCommandParserTest {
                 new FindCommand(new NestedOrPredicate(
                         new FieldContainsKeywordsPredicate(Arrays.asList("Jurong", "Clementi"),
                                 SEARCH_PREFIX_ADDRESS)));
-        assertParseSuccess(parser, "find -a Jurong|Clementi", expectedFindCommand);
-        assertParseSuccess(parser, "find \n -a Jurong| \n \t Clementi  \t", expectedFindCommand);
+        assertParseSuccess(parser, " -a Jurong|Clementi", expectedFindCommand);
+        assertParseSuccess(parser, "\n -a Jurong| \n \t Clementi  \t", expectedFindCommand);
     }
 
     @Test
@@ -58,10 +70,10 @@ public class FindCommandParserTest {
                                 "eac9b117-2ded-42c3-9264-ccf3dfaaa950",
                                 "eac9b117-2ded-42c3-9264-ccf3dfaaa951"), SEARCH_PREFIX_ID)));
         assertParseSuccess(parser,
-                "find -id eac9b117-2ded-42c3-9264-ccf3dfaaa950|eac9b117-2ded-42c3-9264-ccf3dfaaa951",
+                " -id eac9b117-2ded-42c3-9264-ccf3dfaaa950|eac9b117-2ded-42c3-9264-ccf3dfaaa951",
                 expectedFindCommand);
         assertParseSuccess(parser,
-                "find \n -id eac9b117-2ded-42c3-9264-ccf3dfaaa950| \n "
+                "\n -id eac9b117-2ded-42c3-9264-ccf3dfaaa950| \n "
                             + "\t eac9b117-2ded-42c3-9264-ccf3dfaaa951  \t",
                 expectedFindCommand);
     }
@@ -72,8 +84,8 @@ public class FindCommandParserTest {
                 new FindCommand(new NestedOrPredicate(
                         new FieldContainsKeywordsPredicate(Arrays.asList("94351253", "98765432"),
                                 SEARCH_PREFIX_PHONE)));
-        assertParseSuccess(parser, "find -p 94351253|98765432", expectedFindCommand);
-        assertParseSuccess(parser, "find \n -p 94351253| \n \t 98765432  \t", expectedFindCommand);
+        assertParseSuccess(parser, " -p 94351253|98765432", expectedFindCommand);
+        assertParseSuccess(parser, "\n -p 94351253| \n \t 98765432  \t", expectedFindCommand);
     }
 
     @Test
@@ -82,8 +94,8 @@ public class FindCommandParserTest {
                 new FindCommand(new NestedOrPredicate(
                         new FieldContainsKeywordsPredicate(Arrays.asList("alice@example.com", "johnd@example.com"),
                                 SEARCH_PREFIX_EMAIL)));
-        assertParseSuccess(parser, "find -e alice@example.com|johnd@example.com", expectedFindCommand);
-        assertParseSuccess(parser, "find \n -e alice@example.com| \n \t johnd@example.com  \t",
+        assertParseSuccess(parser, " -e alice@example.com|johnd@example.com", expectedFindCommand);
+        assertParseSuccess(parser, "\n -e alice@example.com| \n \t johnd@example.com  \t",
                 expectedFindCommand);
     }
 
@@ -92,7 +104,7 @@ public class FindCommandParserTest {
         FindCommand expectedFindCommand =
                 new FindCommand(new NestedOrPredicate(
                         new FieldContainsKeywordsPredicate(Arrays.asList("friends", "owesMoney"), SEARCH_PREFIX_TAG)));
-        assertParseSuccess(parser, "find -t friends|owesMoney", expectedFindCommand);
-        assertParseSuccess(parser, "find \n -t friends| \n \t owesMoney  \t", expectedFindCommand);
+        assertParseSuccess(parser, " -t friends|owesMoney", expectedFindCommand);
+        assertParseSuccess(parser, "\n -t friends| \n \t owesMoney  \t", expectedFindCommand);
     }
 }
