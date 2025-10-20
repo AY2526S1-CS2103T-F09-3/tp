@@ -116,9 +116,6 @@ public class FindCommandParser implements Parser<FindCommand> {
      * @return - String array of keywords split by delimiter ("|")
      */
     private static String[] processValue(String keywords) {
-        if (keywords.trim().equals(FindCommand.COMMAND_WORD)) {
-            return new String[0];
-        }
         return Arrays.stream(keywords.trim().split("(?<!\\\\)\\|"))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
