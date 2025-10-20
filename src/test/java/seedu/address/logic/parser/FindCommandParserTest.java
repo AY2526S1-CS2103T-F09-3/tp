@@ -29,7 +29,7 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_without_flag_returns_name_search_FindCommand() {
+    public void parse_without_flag_returnsFindCommand() {
         // no leading and trailing whitespaces
         FindCommand expectedFindCommand =
                 new FindCommand(new NestedOrPredicate(
