@@ -17,9 +17,10 @@ import seedu.address.model.recruit.Recruit;
 public class ArchiveCommand extends Command {
     public static final String COMMAND_WORD = "archive";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Archives the details of an "
-            + "unarchived recruit identified by the index number used in the displayed recruit list. "
-            + "Parameters: INDEX (must be a positive integer) "
+            + "unarchived recruit identified by the index number used in the displayed recruit list. \n"
+            + "Parameters: INDEX (must be a positive integer) \n"
             + "Example: " + COMMAND_WORD + " 1 ";
+
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit is already archived in the address book.";
     public static final String MESSAGE_ARCHIVE_RECRUIT_SUCCESS = "Archived Recruit:\n%1$s";
 
@@ -43,6 +44,9 @@ public class ArchiveCommand extends Command {
         }
 
         Recruit recruitToArchive = lastShownList.get(index.getZeroBased());
+        if (recruitToArchive.getArchiveStatus()) {
+            throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
+        }
         Recruit archivedRecruit = archiveRecruit(recruitToArchive);
 
         if (!recruitToArchive.isSameRecruit(archivedRecruit) && model.hasRecruit(archivedRecruit)) {
