@@ -19,4 +19,7 @@ public class CliSyntax {
     public static final Prefix SEARCH_PREFIX_EMAIL = new Prefix("-e");
     public static final Prefix SEARCH_PREFIX_ADDRESS = new Prefix("-a");
     public static final Prefix SEARCH_PREFIX_TAG = new Prefix("-t");
+
+    public static final Prefix LIST_ALL = new Prefix("-all");
+    public static final Prefix LIST_ARCHIVE = new Prefix("-archive");
 }

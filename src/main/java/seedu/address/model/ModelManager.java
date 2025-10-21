@@ -35,7 +35,8 @@ public class ModelManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
-        filteredRecruits = new FilteredList<>(this.addressBook.getRecruitList());
+        filteredRecruits = new FilteredList<>(this.addressBook.getRecruitList())
+                .filtered(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
     }
 
     public ModelManager() {
@@ -103,7 +104,7 @@ public class ModelManager implements Model {
     @Override
     public void addRecruit(Recruit recruit) {
         addressBook.addRecruit(recruit);
-        updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        updateFilteredRecruitList(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
     }
 
     @Override

@@ -15,6 +15,8 @@ import seedu.address.model.recruit.Recruit;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Recruit> PREDICATE_SHOW_ALL_RECRUITS = unused -> true;
+    Predicate<Recruit> PREDICATE_SHOW_UNARCHVIED_RECRUITS = recruit -> !recruit.getArchiveStatus();
+    Predicate<Recruit> PREDICATE_SHOW_ARCHIVED_RECRUITS = Recruit::getArchiveStatus;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.

@@ -31,6 +31,7 @@ class JsonAdaptedRecruit {
     private final List<String> emails;
     private final List<String> addresses;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final boolean isArchived;
 
     /**
      * Constructs a {@code JsonAdaptedRecruit} with the given person details.
@@ -41,7 +42,8 @@ class JsonAdaptedRecruit {
                               @JsonProperty("phones") List<String> phone,
                               @JsonProperty("emails") List<String> email,
                               @JsonProperty("addresses") List<String> address,
-                              @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                              @JsonProperty("tags") List<JsonAdaptedTag> tags,
+                              @JsonProperty("isArchived") boolean isArchived) {
         this.id = id;
         this.names = name;
         this.phones = phone;
@@ -50,6 +52,7 @@ class JsonAdaptedRecruit {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.isArchived = isArchived;
     }
 
     /**
@@ -64,6 +67,7 @@ class JsonAdaptedRecruit {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        isArchived = source.getArchiveStatus();
     }
 
     /**
@@ -114,7 +118,7 @@ class JsonAdaptedRecruit {
         final List<Address> modelAddresses = addresses.stream().map(Address::new).toList();
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Recruit(modelId, modelNames, modelPhones, modelEmails, modelAddresses, modelTags);
+        return new Recruit(modelId, modelNames, modelPhones, modelEmails, modelAddresses, modelTags, isArchived);
     }
 
 }

@@ -6,7 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
+import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -86,7 +86,7 @@ public class EditCommand extends Command {
         }
 
         model.setRecruit(recruitToEdit, editedRecruit);
-        model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        model.updateFilteredRecruitList(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
         return new CommandResult(String.format(
                 MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editRecruitDescriptor)));
     }
@@ -103,8 +103,9 @@ public class EditCommand extends Command {
         List<Email> updatedEmail = editRecruitDescriptor.getEmail().orElse(recruitToEdit.getEmails());
         List<Address> updatedAddress = editRecruitDescriptor.getAddress().orElse(recruitToEdit.getAddresses());
         Set<Tag> updatedTags = editRecruitDescriptor.getTags().orElse(recruitToEdit.getTags());
-
-        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        boolean isArchived = recruitToEdit.getArchiveStatus();
+        return new Recruit(updatedId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags,
+                isArchived);
     }
 
     @Override

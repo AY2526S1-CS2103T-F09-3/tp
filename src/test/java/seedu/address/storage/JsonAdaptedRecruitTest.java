@@ -53,7 +53,7 @@ public class JsonAdaptedRecruitTest {
     public void toModelType_invalidName_throwsIllegalValueException() {
         JsonAdaptedRecruit person =
                 new JsonAdaptedRecruit(VALID_ID, INVALID_NAME_LIST, VALID_PHONE_LIST,
-                        VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS);
+                        VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS, false);
         String expectedMessage = Name.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -61,7 +61,7 @@ public class JsonAdaptedRecruitTest {
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
         JsonAdaptedRecruit person = new JsonAdaptedRecruit(VALID_ID, null, VALID_PHONE_LIST,
-                VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS);
+                VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS, false);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -70,7 +70,7 @@ public class JsonAdaptedRecruitTest {
     public void toModelType_invalidPhone_throwsIllegalValueException() {
         JsonAdaptedRecruit person =
                 new JsonAdaptedRecruit(VALID_ID, VALID_NAME_LIST, INVALID_PHONE_LIST,
-                        VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS);
+                        VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS, false);
         String expectedMessage = Phone.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -78,7 +78,7 @@ public class JsonAdaptedRecruitTest {
     @Test
     public void toModelType_nullPhone_throwsIllegalValueException() {
         JsonAdaptedRecruit person = new JsonAdaptedRecruit(VALID_ID, VALID_NAME_LIST, null,
-                VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS);
+                VALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS, false);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -87,7 +87,7 @@ public class JsonAdaptedRecruitTest {
     public void toModelType_invalidEmail_throwsIllegalValueException() {
         JsonAdaptedRecruit person =
                 new JsonAdaptedRecruit(VALID_ID, VALID_NAME_LIST, VALID_PHONE_LIST,
-                        INVALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS);
+                        INVALID_EMAIL_LIST, VALID_ADDRESS_LIST, VALID_TAGS, false);
         String expectedMessage = Email.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -95,7 +95,7 @@ public class JsonAdaptedRecruitTest {
     @Test
     public void toModelType_nullEmail_throwsIllegalValueException() {
         JsonAdaptedRecruit person = new JsonAdaptedRecruit(VALID_ID, VALID_NAME_LIST, VALID_PHONE_LIST,
-            null, VALID_ADDRESS_LIST, VALID_TAGS);
+            null, VALID_ADDRESS_LIST, VALID_TAGS, false);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -104,7 +104,7 @@ public class JsonAdaptedRecruitTest {
     public void toModelType_invalidAddress_throwsIllegalValueException() {
         JsonAdaptedRecruit person =
                 new JsonAdaptedRecruit(VALID_ID, VALID_NAME_LIST, VALID_PHONE_LIST, VALID_EMAIL_LIST,
-                        INVALID_ADDRESS_LIST, VALID_TAGS);
+                        INVALID_ADDRESS_LIST, VALID_TAGS, false);
         String expectedMessage = Address.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -112,7 +112,7 @@ public class JsonAdaptedRecruitTest {
     @Test
     public void toModelType_nullAddress_throwsIllegalValueException() {
         JsonAdaptedRecruit person = new JsonAdaptedRecruit(VALID_ID, VALID_NAME_LIST, VALID_PHONE_LIST,
-                VALID_EMAIL_LIST, null, VALID_TAGS);
+                VALID_EMAIL_LIST, null, VALID_TAGS, false);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
@@ -123,7 +123,7 @@ public class JsonAdaptedRecruitTest {
         invalidTags.add(new JsonAdaptedTag(INVALID_TAG));
         JsonAdaptedRecruit person =
                 new JsonAdaptedRecruit(VALID_ID, VALID_NAME_LIST, VALID_PHONE_LIST,
-                        VALID_EMAIL_LIST, VALID_ADDRESS_LIST, invalidTags);
+                        VALID_EMAIL_LIST, VALID_ADDRESS_LIST, invalidTags, false);
         assertThrows(IllegalValueException.class, person::toModelType);
     }
 

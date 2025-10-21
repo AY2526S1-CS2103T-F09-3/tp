@@ -55,11 +55,10 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         if (argMultimap.getValue(PREFIX_ID).isPresent()) {
             UUID id = ParserUtil.parseID(argMultimap.getValue(PREFIX_ID).get());
-            recruit = new Recruit(id, List.of(name), List.of(phone), List.of(email), List.of(address), tagList);
+            recruit = new Recruit(id, List.of(name), List.of(phone), List.of(email), List.of(address), tagList, false);
         } else {
-            recruit = new Recruit(name, phone, email, address, tagList);
+            recruit = new Recruit(name, phone, email, address, tagList, false);
         }
-
         return new AddCommand(recruit);
     }
 
