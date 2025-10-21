@@ -101,7 +101,7 @@ public interface Model {
      * Refreshes the Recruit List
      */
     void refreshFilteredRecruitList();
-    
+
     /**
      * Saves the current address book state in history.
      */
