@@ -30,14 +30,14 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS), model,
-                ListCommandParser.NORMAL_LIST_OP, expectedModel);
+        assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS,
+                        ListCommandParser.NORMAL_LIST_OP), model, ListCommandParser.NORMAL_LIST_OP, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
-        assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS), model,
-                ListCommandParser.NORMAL_LIST_OP, expectedModel);
+        assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS,
+                        ListCommandParser.NORMAL_LIST_OP), model, ListCommandParser.NORMAL_LIST_OP, expectedModel);
     }
 }
