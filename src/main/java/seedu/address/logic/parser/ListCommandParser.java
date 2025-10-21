@@ -14,7 +14,6 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new DeleteCommand object
  */
 public class ListCommandParser implements Parser<ListCommand> {
-
     public static final String NORMAL_LIST_OP = "Listed all recruits";
     public static final String ARCHIVE_LIST_OP = "Listed all archived recruits!";
     public static final String FULL_LIST_OP = "Listed all recruits (unarchived & archived)";

@@ -2,6 +2,8 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.logic.parser.ListCommandParser.NORMAL_LIST_OP;
+import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
 import static seedu.address.testutil.TypicalRecruits.AMY;
 import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
@@ -26,7 +28,7 @@ public class UndoCommandTest {
 
         new AddCommand(AMY).execute(model);
         new DeleteCommand(ALICE.getID()).execute(model);
-        new ListCommand().execute(model);
+        new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS, NORMAL_LIST_OP).execute(model);
 
         expectedModel.addRecruit(AMY);
         expectedModel.commitAddressBook(String.format(AddCommand.OPERATION_DESCRIPTOR, AMY.getName(), AMY.getID()));
@@ -47,7 +49,7 @@ public class UndoCommandTest {
     public void execute_noUndoableOperationExists_failure() throws Exception {
         new AddCommand(AMY).execute(model);
         new DeleteCommand(ALICE.getID()).execute(model);
-        new ListCommand().execute(model);
+        new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS, NORMAL_LIST_OP).execute(model);
         new UndoCommand().execute(model);
         new UndoCommand().execute(model);
 
