@@ -10,6 +10,7 @@ import seedu.address.model.Model;
  */
 public class SortCommand extends Command {
     public static final String COMMAND_WORD = "sort";
+    public static final String OPERATION_DESCRIPTOR = "sorting of recruit by %s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Sorts all recruits in the address book.\n";
 
@@ -19,6 +20,7 @@ public class SortCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.sortRecruits();
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, "name"));
         return new CommandResult(String.format(MESSAGE_SUCCESS));
     }
 }

@@ -18,6 +18,7 @@ import seedu.address.model.recruit.Recruit;
 public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
+    public static final String OPERATION_DESCRIPTOR = "deletion of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the recruit identified by recruit's ID.\n"
@@ -44,8 +45,10 @@ public class DeleteCommand extends Command {
         if (recruitToDelete.isEmpty()) {
             throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
         }
+        Recruit targetRecruit = recruitToDelete.get();
 
-        model.deleteRecruit(recruitToDelete.get());
+        model.deleteRecruit(targetRecruit);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, Messages.format(targetRecruit)));
         return new CommandResult(String.format(MESSAGE_DELETE_RECRUIT_SUCCESS, Messages.format(recruitToDelete.get())));
     }
 

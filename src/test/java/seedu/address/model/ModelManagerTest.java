@@ -7,7 +7,9 @@ import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
 import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
+import static seedu.address.testutil.TypicalRecruits.AMY;
 import static seedu.address.testutil.TypicalRecruits.BENSON;
+import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -92,6 +94,36 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredRecruitList().remove(0));
+    }
+
+    @Test
+    public void undoAddressBook_undoableOperationExists_success() {
+        modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        modelManager.addRecruit(AMY);
+        modelManager.commitAddressBook("add Amy");
+        modelManager.undoAddressBook();
+
+        ModelManager expectedModelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        assertEquals(expectedModelManager, modelManager);
+    }
+
+
+    @Test
+    public void undoAddressBook_noUndoableOperationExists_failure() {
+        assertThrows(IllegalStateException.class, () -> modelManager.undoAddressBook());
+    }
+
+    @Test
+    public void canUndoAddressBook_undoableOperationExists_returnsTrue() {
+        modelManager = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        modelManager.addRecruit(AMY);
+        modelManager.commitAddressBook("add Amy");
+        assertTrue(modelManager.canUndoAddressBook());
+    }
+
+    @Test
+    public void canUndoAddressBook_undoableOperationExists_returnsFalse() {
+        assertFalse(modelManager.canUndoAddressBook());
     }
 
     @Test

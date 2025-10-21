@@ -20,6 +20,7 @@ import seedu.address.model.recruit.Recruit;
 public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
+    public static final String OPERATION_DESCRIPTOR = "creation of new recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a recruit to the address book. "
             + "Parameters: "
@@ -59,6 +60,7 @@ public class AddCommand extends Command {
         }
 
         model.addRecruit(toAdd);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, Messages.format(toAdd)));
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 

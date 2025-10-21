@@ -35,6 +35,7 @@ import seedu.address.model.tag.Tag;
 public class EditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
+    public static final String OPERATION_DESCRIPTOR = "modification of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the recruit identified "
             + "by the index number used in the displayed recruit list. "
@@ -86,6 +87,7 @@ public class EditCommand extends Command {
         }
 
         model.setRecruit(recruitToEdit, editedRecruit);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editRecruitDescriptor)));
         model.updateFilteredRecruitList(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
         return new CommandResult(String.format(
                 MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editRecruitDescriptor)));

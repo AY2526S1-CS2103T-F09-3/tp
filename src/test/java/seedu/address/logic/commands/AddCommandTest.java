@@ -172,6 +172,17 @@ public class AddCommandTest {
 
         @Override
         public void refreshFilteredRecruitList() {
+        public void commitAddressBook(String command) {
+            // does nothing
+        }
+
+        @Override
+        public String undoAddressBook() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean canUndoAddressBook() {
             throw new AssertionError("This method should not be called.");
         }
     }

@@ -21,7 +21,7 @@ import seedu.address.model.recruit.Recruit;
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
-    private final AddressBook addressBook;
+    private final VersionedAddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Recruit> filteredRecruits;
     private Predicate<Recruit> currPredicate = null;
@@ -34,7 +34,7 @@ public class ModelManager implements Model {
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
-        this.addressBook = new AddressBook(addressBook);
+        this.addressBook = new VersionedAddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredRecruits = new FilteredList<>(this.addressBook.getRecruitList())
                 .filtered(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
@@ -165,4 +165,20 @@ public class ModelManager implements Model {
                 && filteredRecruits.equals(otherModelManager.filteredRecruits);
     }
 
+    @Override
+    public void commitAddressBook(String descriptor) {
+        addressBook.commit(descriptor);
+    }
+
+    @Override
+    public String undoAddressBook() {
+        String undoneCommand = addressBook.undo();
+        updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
+        return undoneCommand;
+    }
+
+    @Override
+    public boolean canUndoAddressBook() {
+        return addressBook.canUndoAddressBook();
+    }
 }

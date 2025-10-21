@@ -11,6 +11,7 @@ import seedu.address.model.Model;
 public class ClearCommand extends Command {
 
     public static final String COMMAND_WORD = "clear";
+    public static final String OPERATION_DESCRIPTOR = "deletion of all recruits";
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
 
 
@@ -18,6 +19,7 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.setAddressBook(new AddressBook());
+        model.commitAddressBook(OPERATION_DESCRIPTOR);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
