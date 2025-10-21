@@ -1,8 +1,6 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ARCHIVED_RECRUITS;
-import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 
 import java.util.List;
 
