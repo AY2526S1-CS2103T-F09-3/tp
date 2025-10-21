@@ -1,8 +1,11 @@
 package seedu.address.commons.util;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonBlankString;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireNonEmpty;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.Arrays;
@@ -11,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 public class CollectionUtilTest {
     @Test
@@ -74,6 +78,34 @@ public class CollectionUtilTest {
     }
 
     @Test
+    public void requireNonEmptyCollection() {
+        // non-empty lists
+        assertDoesNotThrow(() -> requireNonEmpty(Arrays.asList("spam", null, new Object())));
+        assertDoesNotThrow(() -> requireNonEmpty(Arrays.asList("spam", null, "eggs", null, new Object())));
+
+        // empty list
+        assertIllegalArgumentExceptionThrown(() -> requireNonEmpty(Collections.emptyList()));
+
+        // confirms empty nested lists are not considered
+        List<Object> containingEmptyList = Arrays.asList(Collections.emptyList());
+        assertDoesNotThrow(() -> requireNonEmpty(Arrays.asList(containingEmptyList, new Object())));
+    }
+
+    @Test
+    public void requireAllNonBlankStringCollection() {
+        // all strings non-blank
+        assertDoesNotThrow(() -> requireAllNonBlankString(Arrays.asList("spam", "ham", "cam")));
+        assertDoesNotThrow(() -> requireAllNonBlankString(Arrays.asList("spam", "ham", "eggs", "ok", "x")));
+        assertDoesNotThrow(() -> requireAllNonBlankString(Arrays.asList()));
+
+        // all strings blank
+        assertIllegalArgumentExceptionThrown(() -> requireAllNonBlankString(Arrays.asList("", "       ",
+                "\n\n", "\t  \n \t\t\n")));
+        assertIllegalArgumentExceptionThrown(() -> requireAllNonBlankString(Arrays.asList("\t\t \r\n \t\r",
+                "\n\n", "\t  \n \t\t\n")));
+    }
+
+    @Test
     public void isAnyNonNull() {
         assertFalse(CollectionUtil.isAnyNonNull());
         assertFalse(CollectionUtil.isAnyNonNull((Object) null));
@@ -104,5 +136,13 @@ public class CollectionUtilTest {
 
     private void assertNullPointerExceptionNotThrown(Collection<?> collection) {
         requireAllNonNull(collection);
+    }
+
+    /**
+     * Asserts that {@code CollectionUtil#requireNonEmpty(Collection<?>)} throw {@code IllegalArgumentException}
+     * if {@code collection} is empty.
+     */
+    private void assertIllegalArgumentExceptionThrown(Executable f) {
+        assertThrows(IllegalArgumentException.class, f);
     }
 }

@@ -27,7 +27,7 @@ public class FieldContainsKeywordsPredicate implements Predicate<Recruit> {
      * @param prefix - type of parameter being searched
      */
     public FieldContainsKeywordsPredicate(List<String> keywords, Prefix prefix) {
-        this.keywords = keywords;
+        this.keywords = keywords.stream().map(s -> s.toLowerCase()).toList();
         this.prefix = prefix;
     }
 
@@ -38,25 +38,24 @@ public class FieldContainsKeywordsPredicate implements Predicate<Recruit> {
                     .anyMatch(keyword -> recruit.getID().equals(UUID.fromString(keyword)));
         } else if (prefix.equals(SEARCH_PREFIX_NAME)) {
             return keywords.stream()
-                    .anyMatch(keyword -> recruit.getName().fullName.toLowerCase()
-                            .contains(keyword.toLowerCase()));
+                    .anyMatch(keyword -> recruit.getNames().stream()
+                            .anyMatch(n -> n.fullName.toLowerCase().contains(keyword)));
         } else if (prefix.equals(SEARCH_PREFIX_EMAIL)) {
             return keywords.stream()
-                    .anyMatch(keyword -> recruit.getEmail().value.toLowerCase()
-                            .contains(keyword.toLowerCase()));
+                    .anyMatch(keyword -> recruit.getEmails().stream()
+                            .anyMatch(e -> e.value.toLowerCase().contains(keyword)));
         } else if (prefix.equals(SEARCH_PREFIX_PHONE)) {
             return keywords.stream()
-                    .anyMatch(keyword -> recruit.getPhone().value.toLowerCase()
-                            .contains(keyword.toLowerCase()));
+                    .anyMatch(keyword -> recruit.getPhones().stream()
+                            .anyMatch(p -> p.value.contains(keyword)));
         } else if (prefix.equals(SEARCH_PREFIX_ADDRESS)) {
             return keywords.stream()
-                    .anyMatch(keyword -> recruit.getAddress().value.toLowerCase()
-                            .contains(keyword.toLowerCase()));
+                    .anyMatch(keyword -> recruit.getAddresses().stream()
+                            .anyMatch(a -> a.value.toLowerCase().contains(keyword)));
         } else if (prefix.equals(SEARCH_PREFIX_TAG)) {
             return keywords.stream()
                     .anyMatch(keyword -> recruit.getTags().stream()
-                            .anyMatch(tag -> tag.tagName.toLowerCase()
-                                    .contains(keyword.toLowerCase())));
+                            .anyMatch(tag -> tag.tagName.toLowerCase().contains(keyword)));
         } else {
             return false;
         }

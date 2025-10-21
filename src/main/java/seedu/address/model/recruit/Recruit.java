@@ -1,14 +1,16 @@
 package seedu.address.model.recruit;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonBlankString;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireNonEmpty;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
@@ -21,63 +23,59 @@ public class Recruit {
 
     // Identity fields
     private final UUID id;
-    private final ArrayList<Name> names;
-    private final ArrayList<Phone> phones;
-    private final ArrayList<Email> emails;
+    private final List<Name> names;
+    private final List<Phone> phones;
+    private final List<Email> emails;
 
     // Data fields
-    private final ArrayList<Address> addresses;
+    private final List<Address> addresses;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field except for id must be present and not null.
+     * Every field must be present and not null.
      */
     public Recruit(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
-        this.names = new ArrayList<>(List.of(name));
-        this.phones = new ArrayList<>(List.of(phone));
-        this.emails = new ArrayList<>(List.of(email));
-        this.addresses = new ArrayList<>(List.of(address));
-        this.tags.addAll(tags);
-        this.id = UUID.randomUUID();
+        this(UUID.randomUUID(), name, phone, email, address, tags);
     }
 
     /**
-     * Every field except for id must be present and not null.
+     * Every must be present and not null.
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
-        this.names = new ArrayList<>(List.of(name));
-        this.phones = new ArrayList<>(List.of(phone));
-        this.emails = new ArrayList<>(List.of(email));
-        this.addresses = new ArrayList<>(List.of(address));
+        requireAllNonNull(id, name, phone, email, address, tags);
+        requireAllNonBlankString(List.of(name, phone, email, address).stream().map(Object::toString).toList());
+        requireAllNonBlankString(tags.stream().map(t -> t.tagName).toList());
+
+        this.names = List.of(name);
+        this.phones = List.of(phone);
+        this.emails = List.of(email);
+        this.addresses = List.of(address);
         this.tags.addAll(tags);
         this.id = id;
     }
 
     /**
-     * Every field except for id must be present and not null.
+     * Every field must be present and not null.
      */
-    public Recruit(List<Name> name, List<Phone> phone, List<Email> email, List<Address> address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
-        this.names = new ArrayList<>(name);
-        this.phones = new ArrayList<>(phone);
-        this.emails = new ArrayList<>(email);
-        this.addresses = new ArrayList<>(address);
-        this.tags.addAll(tags);
-        this.id = UUID.randomUUID();
+    public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags) {
+        this(UUID.randomUUID(), names, phones, emails, addresses, tags);
     }
 
     /**
      * Every field must be present and not null.
      */
-    public Recruit(UUID id, List<Name> name, List<Phone> phone, List<Email> email,
-            List<Address> address, Set<Tag> tags) {
-        requireAllNonNull(id, name, phone, email, address, tags);
-        this.names = new ArrayList<>(name);
-        this.phones = new ArrayList<>(phone);
-        this.emails = new ArrayList<>(email);
-        this.addresses = new ArrayList<>(address);
+    public Recruit(UUID id, List<Name> names, List<Phone> phones, List<Email> emails,
+            List<Address> addresses, Set<Tag> tags) {
+        requireAllNonNull(id, names, phones, emails, addresses, tags);
+        requireNonEmpty(names);
+        requireAllNonBlankString(Stream.of(names, phones, emails, addresses)
+                .flatMap(List::stream).map(Object::toString).toList());
+        requireAllNonBlankString(tags.stream().map(t -> t.tagName).toList());
+
+        this.names = names;
+        this.phones = phones;
+        this.emails = emails;
+        this.addresses = addresses;
         this.tags.addAll(tags);
         this.id = id;
     }
@@ -173,10 +171,10 @@ public class Recruit {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("id", id)
-                .add("name", names)
-                .add("phone", phones)
-                .add("email", emails)
-                .add("address", addresses)
+                .add("names", names)
+                .add("phones", phones)
+                .add("emails", emails)
+                .add("addresses", addresses)
                 .add("tags", tags)
                 .toString();
     }

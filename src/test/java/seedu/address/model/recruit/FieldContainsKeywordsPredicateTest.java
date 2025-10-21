@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_TAG;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -79,6 +80,11 @@ public class FieldContainsKeywordsPredicateTest {
                 Arrays.asList("12345", "alice@email.com", "Main", "Street"), SEARCH_PREFIX_NAME);
         assertFalse(predicate.test(new RecruitBuilder().withName("Alice").withPhone("12345")
                 .withEmail("alice@email.com").withAddress("Main Street").build()));
+
+        // Keywords match tag
+        predicate = new FieldContainsKeywordsPredicate(List.of("friend", "colleague"), SEARCH_PREFIX_TAG);
+        assertTrue(predicate.test(new RecruitBuilder().withName("Alice").withPhone("88888888")
+                .withEmail("email@example.com").withTags("oldFriend", "colleague").build()));
     }
 
     @Test
