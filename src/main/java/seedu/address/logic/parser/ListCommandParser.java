@@ -14,6 +14,11 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new DeleteCommand object
  */
 public class ListCommandParser implements Parser<ListCommand> {
+
+    public static final String NORMAL_LIST_OP = "Listed all recruits";
+    public static final String ARCHIVE_LIST_OP = "Listed all archived recruits!";
+    public static final String FULL_LIST_OP = "Listed all recruits (unarchived & archived)";
+
     /**
      * Parses the given {@code String} of arguments in the context of the DeleteCommand
      * and returns a DeleteCommand object for execution.
@@ -27,11 +32,11 @@ public class ListCommandParser implements Parser<ListCommand> {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
         } else if (argMultimap.getValue(LIST_ALL).isPresent()) {
-            return new ListCommand(PREDICATE_SHOW_ALL_RECRUITS);
+            return new ListCommand(PREDICATE_SHOW_ALL_RECRUITS, FULL_LIST_OP);
         } else if (argMultimap.getValue(LIST_ARCHIVE).isPresent()) {
-            return new ListCommand(PREDICATE_SHOW_ARCHIVED_RECRUITS);
+            return new ListCommand(PREDICATE_SHOW_ARCHIVED_RECRUITS, ARCHIVE_LIST_OP);
         } else {
-            return new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
+            return new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS, NORMAL_LIST_OP);
         }
     }
 }

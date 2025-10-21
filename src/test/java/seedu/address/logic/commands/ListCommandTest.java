@@ -9,6 +9,7 @@ import static seedu.address.testutil.TypicalRecruits.getTypicalAddressBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.parser.ListCommandParser;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -30,13 +31,13 @@ public class ListCommandTest {
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
         assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS), model,
-                ListCommand.MESSAGE_SUCCESS, expectedModel);
+                ListCommandParser.NORMAL_LIST_OP, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
         assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS), model,
-                ListCommand.MESSAGE_SUCCESS, expectedModel);
+                ListCommandParser.NORMAL_LIST_OP, expectedModel);
     }
 }
