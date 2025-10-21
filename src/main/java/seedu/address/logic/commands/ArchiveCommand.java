@@ -54,8 +54,7 @@ public class ArchiveCommand extends Command {
         }
 
         model.setRecruit(recruitToArchive, archivedRecruit);
-        // need to remember current state of predicate somehow
-        model.updateFilteredRecruitList(PREDICATE_SHOW_UNARCHVIED_RECRUITS);
+        model.refreshFilteredRecruitList();
 
         return new CommandResult(String.format(
                 MESSAGE_ARCHIVE_RECRUIT_SUCCESS, Messages.format(recruitToArchive)));

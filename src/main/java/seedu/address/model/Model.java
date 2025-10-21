@@ -96,4 +96,9 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredRecruitList(Predicate<Recruit> predicate);
+
+    /**
+     * Refreshes the Recruit List
+     */
+    void refreshFilteredRecruitList();
 }

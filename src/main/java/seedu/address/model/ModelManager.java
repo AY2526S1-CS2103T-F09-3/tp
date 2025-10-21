@@ -24,6 +24,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Recruit> filteredRecruits;
+    private Predicate<Recruit> currPredicate = null;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -134,6 +135,13 @@ public class ModelManager implements Model {
     public void updateFilteredRecruitList(Predicate<Recruit> predicate) {
         requireNonNull(predicate);
         filteredRecruits.setPredicate(predicate);
+        this.currPredicate = predicate;
+    }
+
+    @Override
+    public void refreshFilteredRecruitList() {
+        updateFilteredRecruitList(this.currPredicate == null
+                ? PREDICATE_SHOW_UNARCHVIED_RECRUITS : this.currPredicate);
     }
 
     public Optional<Recruit> getFilteredRecruitByID(UUID id) {
