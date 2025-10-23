@@ -3,20 +3,55 @@ package seedu.address.model.recruit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalRecruits.ALICE;
 import static seedu.address.testutil.TypicalRecruits.BOB;
 
+import java.util.HashSet;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.tag.Tag;
 import seedu.address.testutil.RecruitBuilder;
 
 public class RecruitTest {
+
+    @Test
+    public void constructors() {
+
+        // recruit with random uuid and non-list params
+        Recruit r = new Recruit(new Name(VALID_NAME_AMY), new Phone(VALID_PHONE_AMY),
+                new Email(VALID_EMAIL_AMY), new Address(VALID_ADDRESS_AMY),
+                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))));
+
+        assertEquals(new Name(VALID_NAME_AMY), r.getName());
+        assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
+        assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail());
+        assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress());
+        assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
+
+        // recruit with random uuid and list params
+        r = new Recruit(List.of(new Name(VALID_NAME_AMY)), List.of(new Phone(VALID_PHONE_AMY)),
+                List.of(new Email(VALID_EMAIL_AMY)), List.of(new Address(VALID_ADDRESS_AMY)),
+                new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))));
+
+        assertEquals(new Name(VALID_NAME_AMY), r.getName());
+        assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
+        assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail());
+        assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress());
+        assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
+    }
 
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {

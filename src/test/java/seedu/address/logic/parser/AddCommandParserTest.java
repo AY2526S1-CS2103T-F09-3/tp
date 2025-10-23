@@ -26,10 +26,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalRecruits.AMY;
@@ -37,7 +33,6 @@ import static seedu.address.testutil.TypicalRecruits.BOB;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.model.recruit.Address;
 import seedu.address.model.recruit.Email;
@@ -70,67 +65,71 @@ public class AddCommandParserTest {
     }
 
     @Test
-    public void parse_repeatedNonTagValue_failure() {
-        String validExpectedRecruitString = NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND;
+    public void parse_repeatedValues_success() {
+        String validExpectedRecruitString = ID_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND;
 
         // multiple names
-        assertParseFailure(parser, NAME_DESC_AMY + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+        Recruit recruit = new RecruitBuilder(BOB).withAdditionalName(AMY.getName().fullName).build();
+        assertParseSuccess(parser, validExpectedRecruitString + NAME_DESC_AMY, new AddCommand(recruit));
 
         // multiple phones
-        assertParseFailure(parser, PHONE_DESC_AMY + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+        recruit = new RecruitBuilder(BOB).withAdditionalPhone(AMY.getPhone().value).build();
+        assertParseSuccess(parser, validExpectedRecruitString + PHONE_DESC_AMY, new AddCommand(recruit));
 
         // multiple emails
-        assertParseFailure(parser, EMAIL_DESC_AMY + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
+        recruit = new RecruitBuilder(BOB).withAdditionalEmail(AMY.getEmail().value).build();
+        assertParseSuccess(parser, validExpectedRecruitString + EMAIL_DESC_AMY, new AddCommand(recruit));
 
         // multiple addresses
-        assertParseFailure(parser, ADDRESS_DESC_AMY + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
+        recruit = new RecruitBuilder(BOB).withAdditionalAddress(AMY.getAddress().value).build();
+        assertParseSuccess(parser, validExpectedRecruitString + ADDRESS_DESC_AMY, new AddCommand(recruit));
 
         // multiple fields repeated
-        assertParseFailure(parser,
-                validExpectedRecruitString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY
-                        + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME, PREFIX_ADDRESS, PREFIX_EMAIL, PREFIX_PHONE));
+        recruit = new RecruitBuilder(BOB)
+                        .withAdditionalName(AMY.getName().fullName)
+                        .withAdditionalPhone(AMY.getPhone().value)
+                        .withAdditionalEmail(AMY.getEmail().value)
+                        .withAdditionalAddress(AMY.getAddress().value).build();
+        assertParseSuccess(parser,
+                validExpectedRecruitString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY,
+                new AddCommand(recruit));
 
         // invalid value followed by valid value
 
         // invalid name
         assertParseFailure(parser, INVALID_NAME_DESC + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+                Name.MESSAGE_CONSTRAINTS);
 
         // invalid email
         assertParseFailure(parser, INVALID_EMAIL_DESC + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
+                Email.MESSAGE_CONSTRAINTS);
 
         // invalid phone
         assertParseFailure(parser, INVALID_PHONE_DESC + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+                Phone.MESSAGE_CONSTRAINTS);
 
         // invalid address
         assertParseFailure(parser, INVALID_ADDRESS_DESC + validExpectedRecruitString,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
+                Address.MESSAGE_CONSTRAINTS);
 
         // valid value followed by invalid value
 
         // invalid name
         assertParseFailure(parser, validExpectedRecruitString + INVALID_NAME_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_NAME));
+                Name.MESSAGE_CONSTRAINTS);
 
         // invalid email
         assertParseFailure(parser, validExpectedRecruitString + INVALID_EMAIL_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_EMAIL));
+                Email.MESSAGE_CONSTRAINTS);
 
         // invalid phone
         assertParseFailure(parser, validExpectedRecruitString + INVALID_PHONE_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PHONE));
+                Phone.MESSAGE_CONSTRAINTS);
 
         // invalid address
         assertParseFailure(parser, validExpectedRecruitString + INVALID_ADDRESS_DESC,
-                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_ADDRESS));
+                Address.MESSAGE_CONSTRAINTS);
     }
 
     @Test

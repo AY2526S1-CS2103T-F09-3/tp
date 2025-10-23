@@ -4,9 +4,9 @@
   pageNav: 3
 ---
 
-# AB-3 User Guide
+# TalentNexus User Guide
 
-AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, AB3 can get your contact management tasks done faster than traditional GUI apps.
+TalentNexus is a **desktop app for managing recruits, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TalentNexus can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -22,7 +22,7 @@ AddressBook Level 3 (AB3) is a **desktop app for managing contacts, optimized fo
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar talentnexus.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -84,7 +84,7 @@ Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
 <box type="tip" seamless>
 
-**Tip:** A recruit can have any number of tags (including 0)
+💡 **Tip:** A recruit can have any number of tags (or none at all)
 </box>
 
 Examples:
@@ -101,9 +101,10 @@ Format: `list`
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX/UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 
-* Edits the recruit at the specified `INDEX`. The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the recruit at the specified `INDEX` or `UUID`.
+* The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the recruit will be removed i.e adding of tags is not cumulative.
@@ -136,9 +137,9 @@ Examples:
 
 Deletes the specified recruit from the address book.
 
-Format: `delete INDEX`
+Format: `delete INDEX/UUID`
 
-* Deletes the recruit at the specified `INDEX`.
+* Deletes the recruit at the specified `INDEX` or `UUID`.
 * The index refers to the index number shown in the displayed recruit list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
@@ -150,13 +151,29 @@ Examples:
 
 Clears all entries from the address book.
 
-Format: `clear`
+Format: `clear`  
+
+⚠️ **Warning:** This action cannot be undone.
 
 ### Exiting the program : `exit`
 
 Exits the program.
 
 Format: `exit`
+
+### Export the data
+
+Export all recruits in the address book to a .csv file.
+
+Format: `export FILEPATH`
+
+* `FILEPATH` is optional, if none is given the default filepath found in preferences.json will be used.
+
+Examples:
+*  `export` Exports all recruits to the default filepath found in preferences.json.
+*  `export ./data/recruits.csv` Exports all recruits to the relative filepath ./data/recruits.csv.
+
+💡 **Tip:** Use CSV exports to share data easily between users.
 
 ### Saving the data
 
@@ -199,8 +216,9 @@ Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
 **Clear**  | `clear`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Delete** | `delete INDEX/UUID`<br> e.g., `delete 3`
+**Edit**   | `edit INDEX/UUID [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list`
+**Export** | `export FILEPATH`<br> e.g., `export ./data/recruits.csv`
 **Help**   | `help`
