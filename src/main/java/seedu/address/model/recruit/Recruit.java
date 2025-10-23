@@ -41,6 +41,14 @@ public class Recruit {
     }
 
     /**
+     * Every field must be present and not null
+     * isArchived is set to false if not provided
+     */
+    public Recruit(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        this(UUID.randomUUID(), name, phone, email, address, tags, false);
+    }
+
+    /**
      * Every field must be present and not null.
      */
     public Recruit(UUID id, Name name, Phone phone, Email email, Address address, Set<Tag> tags, boolean archive) {
@@ -63,6 +71,14 @@ public class Recruit {
     public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags,
                    boolean archive) {
         this(UUID.randomUUID(), names, phones, emails, addresses, tags, archive);
+    }
+
+    /**
+     * Every field must be present and not null
+     * isArchived is set to false if not provided
+     */
+    public Recruit(List<Name> names, List<Phone> phones, List<Email> emails, List<Address> addresses, Set<Tag> tags) {
+        this(UUID.randomUUID(), names, phones, emails, addresses, tags, false);
     }
 
     /**

@@ -5,6 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.parser.ListCommandParser;
+import seedu.address.logic.parser.ListCommandParser.ListOperation;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Recruit;
 
@@ -23,14 +25,14 @@ public class ListCommand extends Command {
             + "Example: " + COMMAND_WORD + " -archive \n";
 
     public final Predicate<Recruit> predicate;
-    public final String operation;
+    public final ListCommandParser.ListOperation operation;
 
     /**
      * Creates a List Command Object which lists all recruits
      * @param predicate - predicate that filters out irrelevant recruits
      * @param operation - type of list operation performed
      */
-    public ListCommand(Predicate<Recruit> predicate, String operation) {
+    public ListCommand(Predicate<Recruit> predicate, ListCommandParser.ListOperation operation) {
         this.predicate = predicate;
         this.operation = operation;
     }
@@ -39,7 +41,16 @@ public class ListCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.updateFilteredRecruitList(predicate);
-        return new CommandResult(operation);
+        switch (operation) {
+        case NORMAL_LIST_OP:
+            return new CommandResult("Listed all recruits!");
+        case ARCHIVE_LIST_OP:
+            return new CommandResult("Listed all archived recruits!");
+        case FULL_LIST_OP:
+            return new CommandResult("Listed all recruits (unarchived & archived)!");
+        default:
+            return new CommandResult("");
+        }
     }
 
     @Override

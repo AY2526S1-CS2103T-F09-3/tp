@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.parser.ListCommandParser;
+import seedu.address.logic.parser.ListCommandParser.ListOperation;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -44,53 +44,53 @@ public class ListCommandTest {
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
         assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS,
-                        ListCommandParser.NORMAL_LIST_OP), model, ListCommandParser.NORMAL_LIST_OP, expectedModel);
+                        ListOperation.NORMAL_LIST_OP), model, "Listed all recruits!", expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showRecruitAtIndex(model, INDEX_FIRST_RECRUIT);
         assertCommandSuccess(new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS,
-                        ListCommandParser.NORMAL_LIST_OP), model, ListCommandParser.NORMAL_LIST_OP, expectedModel);
+                ListOperation.NORMAL_LIST_OP), model, "Listed all recruits!", expectedModel);
     }
 
     @Test
     public void execute_listAllUnarchived_success() {
-        ListCommand listCommand = new ListCommand(SHOW_ALL_UNARCHIVED, "Listed all unarchived recruits");
+        ListCommand listCommand = new ListCommand(SHOW_ALL_UNARCHIVED, ListOperation.NORMAL_LIST_OP);
         expectedModel.updateFilteredRecruitList(SHOW_ALL_UNARCHIVED);
 
         assertCommandSuccess(listCommand, model,
-                "Listed all unarchived recruits", expectedModel);
+                "Listed all recruits!", expectedModel);
     }
 
     @Test
     public void execute_listAllArchived_success() {
-        ListCommand listCommand = new ListCommand(SHOW_ALL_ARCHIVED, "Listed all archived recruits");
+        ListCommand listCommand = new ListCommand(SHOW_ALL_ARCHIVED, ListOperation.ARCHIVE_LIST_OP);
         expectedModel.updateFilteredRecruitList(SHOW_ALL_ARCHIVED);
 
         assertCommandSuccess(listCommand, model,
-                "Listed all archived recruits", expectedModel);
+                "Listed all archived recruits!", expectedModel);
     }
 
     @Test
     public void execute_listAll_success() {
-        ListCommand listCommand = new ListCommand(SHOW_ALL, "Listed all recruits");
+        ListCommand listCommand = new ListCommand(SHOW_ALL, ListOperation.FULL_LIST_OP);
         expectedModel.updateFilteredRecruitList(SHOW_ALL);
 
         assertCommandSuccess(listCommand, model,
-                "Listed all recruits", expectedModel);
+                "Listed all recruits (unarchived & archived)!", expectedModel);
     }
 
     @Test
     public void equals() {
-        ListCommand listAll = new ListCommand(SHOW_ALL, "Listed all recruits");
-        ListCommand listArchived = new ListCommand(SHOW_ALL_ARCHIVED, "Listed all archived recruits");
+        ListCommand listAll = new ListCommand(SHOW_ALL, ListOperation.FULL_LIST_OP);
+        ListCommand listArchived = new ListCommand(SHOW_ALL_ARCHIVED, ListOperation.ARCHIVE_LIST_OP);
 
         // same object -> returns true
         assertTrue(listAll.equals(listAll));
 
         // same values -> returns true
-        ListCommand listAllCopy = new ListCommand(SHOW_ALL, "Listed all recruits");
+        ListCommand listAllCopy = new ListCommand(SHOW_ALL, ListOperation.FULL_LIST_OP);
         assertTrue(listAll.equals(listAllCopy));
 
         // different types -> returns false
@@ -105,9 +105,9 @@ public class ListCommandTest {
 
     @Test
     public void toStringMethod() {
-        ListCommand listCommand = new ListCommand(SHOW_ALL, "Listed all recruits");
+        ListCommand listCommand = new ListCommand(SHOW_ALL, ListOperation.FULL_LIST_OP);
         String expected = ListCommand.class.getCanonicalName()
-                + "{predicate=" + SHOW_ALL + ", operation=Listed all recruits}";
+                + "{predicate=" + SHOW_ALL + ", operation=FULL_LIST_OP}";
         assertEquals(expected, listCommand.toString());
     }
 }

@@ -3,9 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.address.logic.parser.ListCommandParser.ARCHIVE_LIST_OP;
-import static seedu.address.logic.parser.ListCommandParser.FULL_LIST_OP;
-import static seedu.address.logic.parser.ListCommandParser.NORMAL_LIST_OP;
+import static seedu.address.logic.parser.ListCommandParser.ListOperation;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_RECRUITS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ARCHIVED_RECRUITS;
 import static seedu.address.model.Model.PREDICATE_SHOW_UNARCHVIED_RECRUITS;
@@ -20,20 +18,20 @@ public class ListCommandParserTest {
 
     @Test
     public void parse_noArgs_returnsListCommand() {
-        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS, NORMAL_LIST_OP);
+        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS, ListOperation.NORMAL_LIST_OP);
         assertParseSuccess(parser, "list", expectedListCommand);
     }
 
     @Test
     public void parse_allArg_returnsListCommand() {
-        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ALL_RECRUITS, FULL_LIST_OP);
+        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ALL_RECRUITS, ListOperation.FULL_LIST_OP);
         assertParseSuccess(parser, "list -all", expectedListCommand);
         assertParseSuccess(parser, "list \n -all \t", expectedListCommand);
     }
 
     @Test
     public void parse_archivedArg_returnsListCommand() {
-        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ARCHIVED_RECRUITS, ARCHIVE_LIST_OP);
+        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ARCHIVED_RECRUITS, ListOperation.ARCHIVE_LIST_OP);
         assertParseSuccess(parser, "list -archived", expectedListCommand);
         assertParseSuccess(parser, "list \n -archived \t", expectedListCommand);
     }
