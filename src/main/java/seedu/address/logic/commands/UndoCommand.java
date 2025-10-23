@@ -21,7 +21,7 @@ public class UndoCommand extends Command {
             throw new CommandException(MESSAGE_NO_OPERATION_TO_UNDO);
         }
 
-        String undoneCommand = model.undoAddressBook();
-        return new CommandResult(String.format(MESSAGE_SUCCESS, undoneCommand));
+        String undoneOperation = model.undoAddressBook();
+        return new CommandResult(String.format(MESSAGE_SUCCESS, undoneOperation));
     }
 }

@@ -38,14 +38,17 @@ public class FindCommandParser implements Parser<FindCommand> {
                 && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_PHONE)
                 && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_EMAIL)
                 && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_ADDRESS)
-                && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_TAG));
+                && !arePrefixesPresent(argMultimap, SEARCH_PREFIX_TAG)
+                && argMultimap.getPreamble().isEmpty());
 
         if (isInvalidCommand) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
         String[] idKeywords = getKeywords(argMultimap, SEARCH_PREFIX_ID);
-        String[] nameKeywords = getKeywords(argMultimap, SEARCH_PREFIX_NAME);
+        // If both flag and preamble provided, the keyword after flag will override the preamble
+        String[] nameKeywords = getKeywords(argMultimap, SEARCH_PREFIX_NAME).length > 0
+                ? getKeywords(argMultimap, SEARCH_PREFIX_NAME) : processValue(argMultimap.getPreamble());
         String[] phoneKeywords = getKeywords(argMultimap, SEARCH_PREFIX_PHONE);
         String[] emailKeywords = getKeywords(argMultimap, SEARCH_PREFIX_EMAIL);
         String[] addressKeywords = getKeywords(argMultimap, SEARCH_PREFIX_ADDRESS);
@@ -100,17 +103,22 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     private static String[] getKeywords(ArgumentMultimap argumentMultimap, Prefix prefix) {
         if (argumentMultimap.getValue(prefix).isPresent()) {
-            return Arrays.stream(
-                            argumentMultimap.getValue(prefix)
-                                    .orElse("") // avoid .get() to prevent NoSuchElementException
-                                    .trim()
-                                    .split("(?<!\\\\)\\|"))
-                    .map(String::trim)
-                    .filter(s -> !s.isEmpty())
-                    .toArray(String[]::new);
+            return processValue(argumentMultimap.getValue(prefix)
+                    .orElse(""));
         } else {
             return new String[0];
         }
     }
 
+    /**
+     * Processes string of keywords separated by | into a String array for search
+     * @param keywords - String of keywords for a specific search attribute (e.g. name)
+     * @return - String array of keywords split by delimiter ("|")
+     */
+    private static String[] processValue(String keywords) {
+        return Arrays.stream(keywords.trim().split("(?<!\\\\)\\|"))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toArray(String[]::new);
+    }
 }

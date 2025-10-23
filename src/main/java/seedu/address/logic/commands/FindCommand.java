@@ -14,8 +14,10 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all recruits whose names contain any of "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all recruits who contain any of "
             + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
+            + "Searches for name by default unless keyword(s) are provided using the following flags\n"
+            + "If default keyword(s) and name keyword(s) are both specified, name keyword will take precedence\n"
             + "Parameters: FLAG ( -id for ID, -n for name, -a for address, -p for phone, \n"
             + "-e for email -a for address & -t for tag ) \n"
             + "KEYWORD [MORE_KEYWORDS]...\n"

@@ -1,5 +1,8 @@
 package seedu.address.ui;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
@@ -15,7 +18,7 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class HelpWindow extends UiPart<Stage> {
 
-    public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
+    public static final String USERGUIDE_URL = "https://ay2526s1-cs2103t-f09-3.github.io/tp/UserGuide.html";
     public static final String COMMAND_HELP_MESSAGE = """
             TLDR List of Commands:
             \s
@@ -120,5 +123,19 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
+    }
+
+    /**
+     * Opens the user guide in the user's browser.
+     */
+    @FXML
+    private void openUserGuide() {
+        new Thread(() -> {
+            try {
+                Desktop.getDesktop().browse(URI.create(USERGUIDE_URL));
+            } catch (IOException e) {
+                logger.warning("Failed to open default browser.");
+            }
+        }).start();
     }
 }

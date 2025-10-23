@@ -32,6 +32,11 @@
               <Insets left="5.0" />
             </HBox.margin>
           </Button>
+          <Button fx:id="openUserGuideButton" mnemonicParsing="false" onAction="#openUserGuide" text="Open User Guide">
+            <HBox.margin>
+              <Insets left="5.0" />
+            </HBox.margin>
+          </Button>
         </children>
         <opaqueInsets>
           <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />

@@ -59,6 +59,27 @@ public class VersionedAddressBookTest {
     }
 
     @Test
+    public void canRedoAddressBook_redoableOperationExists_returnsTrue() {
+        addressBook.addRecruit(AMY);
+        addressBook.commit("add Amy");
+        addressBook.undo();
+
+        assertTrue(addressBook.canRedoAddressBook());
+    }
+
+    @Test
+    public void canRedoAddressBook_noRedoableOperationExists_returnsFalse() {
+        assertFalse(addressBook.canRedoAddressBook());
+
+        addressBook.addRecruit(AMY);
+        addressBook.commit("add Amy");
+        addressBook.removeRecruit(AMY);
+        addressBook.commit("delete Amy");
+
+        assertFalse(addressBook.canRedoAddressBook());
+    }
+
+    @Test
     public void undo_undoableOperationExists_success() {
         addressBook.addRecruit(AMY);
         addressBook.commit("add Amy");
@@ -76,6 +97,60 @@ public class VersionedAddressBookTest {
         assertEquals(1, addressBook.getCurrentStatePtr());
         assertEquals(expectedAddressBookStateList, addressBook.getAddressBookStateList());
         assertEquals(3, addressBook.getAddressBookStateList().size());
+    }
+
+    @Test
+    public void undo_noUndoableOperation_exceptionThrown() {
+        assertThrows(IllegalStateException.class, () -> addressBook.undo());
+
+        addressBook.addRecruit(AMY);
+        addressBook.commit("add Amy");
+        addressBook.removeRecruit(AMY);
+        addressBook.commit("delete Amy");
+        addressBook.undo();
+        addressBook.undo();
+        assertThrows(IllegalStateException.class, () -> addressBook.undo());
+    }
+
+    @Test
+    public void redo_redoableOperationExists_success() {
+        addressBook.addRecruit(AMY);
+        addressBook.commit("add Amy");
+        addressBook.removeRecruit(AMY);
+        addressBook.commit("delete Amy");
+
+        addressBook.undo();
+        addressBook.undo();
+        addressBook.redo();
+        addressBook.redo();
+
+        AddressBook ab1 = new AddressBook();
+        ab1.setRecruits(List.of(AMY));
+        List<AddressBookState> expectedAddressBookStateList = List.of(
+                new AddressBookState(new AddressBook(), "INITIAL STATE"),
+                new AddressBookState(ab1, "add Amy"),
+                new AddressBookState(new AddressBook(), "delete Amy"));
+
+        assertEquals(2, addressBook.getCurrentStatePtr());
+        assertEquals(expectedAddressBookStateList, addressBook.getAddressBookStateList());
+        assertEquals(3, addressBook.getAddressBookStateList().size());
+    }
+
+    @Test
+    public void redo_noRedoableOperation_exceptionThrown() {
+        assertThrows(IllegalStateException.class, () -> addressBook.redo());
+
+        addressBook.addRecruit(AMY);
+        addressBook.commit("add Amy");
+        addressBook.removeRecruit(AMY);
+        addressBook.commit("delete Amy");
+
+        addressBook.undo();
+        addressBook.undo();
+        addressBook.redo();
+        addressBook.redo();
+
+        assertThrows(IllegalStateException.class, () -> addressBook.redo());
     }
 
     @Test
@@ -137,18 +212,5 @@ public class VersionedAddressBookTest {
 
         assertEquals(3, addressBook.getAddressBookStateList().size());
         assertEquals(expectedAddressBookStateList, addressBook.getAddressBookStateList());
-    }
-
-    @Test
-    public void undo_noUndoableOperation_yy() {
-        assertThrows(IllegalStateException.class, () -> addressBook.undo());
-
-        addressBook.addRecruit(AMY);
-        addressBook.commit("add Amy");
-        addressBook.removeRecruit(AMY);
-        addressBook.commit("delete Amy");
-        addressBook.undo();
-        addressBook.undo();
-        assertThrows(IllegalStateException.class, () -> addressBook.undo());
     }
 }

@@ -3,8 +3,9 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -26,23 +27,24 @@ public class ViewCommand extends Command {
 
     public static final String MESSAGE_VIEW_RECRUIT_SUCCESS = "Viewing Recruit:\n%1$s";
 
-    private final Index targetIndex;
+    private final UUID targetID;
 
-    public ViewCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+    public ViewCommand(UUID targetID) {
+        this.targetID = targetID;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Recruit> lastShownList = model.getFilteredRecruitList();
+        List<Recruit> lastShownList = model.getAddressBook().getRecruitList();
+        Optional<Recruit> recruitToView = lastShownList.stream()
+                .filter(recruit -> recruit.getID().equals(this.targetID))
+                .findFirst();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+        if (recruitToView.isEmpty()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
         }
-
-        Recruit recruitToView = lastShownList.get(targetIndex.getZeroBased());
-        return new CommandResult(String.format(MESSAGE_VIEW_RECRUIT_SUCCESS, Messages.format(recruitToView)));
+        return new CommandResult(String.format(MESSAGE_VIEW_RECRUIT_SUCCESS, Messages.format(recruitToView.get())));
     }
 
     @Override
@@ -57,13 +59,13 @@ public class ViewCommand extends Command {
         }
 
         ViewCommand otherViewCommand = (ViewCommand) other;
-        return targetIndex.equals(otherViewCommand.targetIndex);
+        return targetID.equals(otherViewCommand.targetID);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
+                .add("targetID", targetID)
                 .toString();
     }
 }
