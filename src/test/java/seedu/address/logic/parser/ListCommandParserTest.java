@@ -18,7 +18,8 @@ public class ListCommandParserTest {
 
     @Test
     public void parse_noArgs_returnsListCommand() {
-        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS, ListOperation.NORMAL_LIST_OP);
+        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_UNARCHVIED_RECRUITS,
+                ListOperation.NORMAL_LIST_OP);
         assertParseSuccess(parser, "list", expectedListCommand);
     }
 
@@ -31,7 +32,8 @@ public class ListCommandParserTest {
 
     @Test
     public void parse_archivedArg_returnsListCommand() {
-        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ARCHIVED_RECRUITS, ListOperation.ARCHIVE_LIST_OP);
+        ListCommand expectedListCommand = new ListCommand(PREDICATE_SHOW_ARCHIVED_RECRUITS,
+                ListOperation.ARCHIVE_LIST_OP);
         assertParseSuccess(parser, "list -archived", expectedListCommand);
         assertParseSuccess(parser, "list \n -archived \t", expectedListCommand);
     }
