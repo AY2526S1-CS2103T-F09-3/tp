@@ -111,7 +111,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     /**
-     * Processes string of keywords separated by || into a String array for search
+     * Processes string of keywords separated by | into a String array for search
      * @param keywords - String of keywords for a specific search attribute (e.g. name)
      * @return - String array of keywords split by delimiter ("|")
      */
