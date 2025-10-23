@@ -75,7 +75,8 @@ public class UnarchiveCommandTest {
         int outOfBoundIndex = model.getFilteredRecruitList().size() + 1;
         UnarchiveCommand unarchiveCommand = new UnarchiveCommand(Index.fromOneBased(outOfBoundIndex));
 
-        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, () -> unarchiveCommand.execute(model));
+        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX,
+                () -> unarchiveCommand.execute(model));
     }
 
     @Test

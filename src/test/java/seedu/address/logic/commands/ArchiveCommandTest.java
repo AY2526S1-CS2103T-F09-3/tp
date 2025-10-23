@@ -62,7 +62,8 @@ public class ArchiveCommandTest {
         int outOfBoundIndex = model.getFilteredRecruitList().size() + 1;
         ArchiveCommand archiveCommand = new ArchiveCommand(Index.fromOneBased(outOfBoundIndex));
 
-        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX, () -> archiveCommand.execute(model));
+        assertThrows(CommandException.class, MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX,
+                () -> archiveCommand.execute(model));
     }
 
     @Test
