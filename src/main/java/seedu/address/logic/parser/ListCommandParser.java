@@ -14,6 +14,10 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new DeleteCommand object
  */
 public class ListCommandParser implements Parser<ListCommand> {
+    /**
+     * List Command supports 3 types of list actions
+     * This enum represents the 3 different types of actions supported
+     */
     public enum ListOperation {
         NORMAL_LIST_OP,
         ARCHIVE_LIST_OP,

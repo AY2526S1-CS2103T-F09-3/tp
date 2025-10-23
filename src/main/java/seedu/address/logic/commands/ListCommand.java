@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.parser.ListCommandParser;
-import seedu.address.logic.parser.ListCommandParser.ListOperation;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Recruit;
 
