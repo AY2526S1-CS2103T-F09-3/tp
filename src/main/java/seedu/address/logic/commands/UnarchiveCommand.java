@@ -20,7 +20,6 @@ public class UnarchiveCommand extends Command {
             + "unarchived recruit identified by the index number used in the displayed recruit list. "
             + "Parameters: INDEX (must be a positive integer) "
             + "Example: " + COMMAND_WORD + " 1 ";
-    public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit is already in the address book.";
     public static final String RECRUIT_ALREADY_UNARCHIVED = "This recruit is not archived.";
     public static final String MESSAGE_ARCHIVE_RECRUIT_SUCCESS = "Unarchived Recruit:\n%1$s";
 
@@ -49,10 +48,6 @@ public class UnarchiveCommand extends Command {
         }
 
         Recruit recruit = unarchiveRecruit(recruitToUnarchive);
-
-        if (!recruitToUnarchive.isSameRecruit(recruit) && model.hasRecruit(recruit)) {
-            throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
-        }
 
         model.setRecruit(recruitToUnarchive, recruit);
         model.refreshFilteredRecruitList();

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
+import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.Model;
 import seedu.address.model.recruit.Recruit;
 
@@ -39,5 +40,26 @@ public class ListCommand extends Command {
         requireNonNull(model);
         model.updateFilteredRecruitList(predicate);
         return new CommandResult(operation);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof ListCommand otherCommand)) {
+            return false;
+        }
+
+        return predicate.equals(otherCommand.predicate) && operation.equals(otherCommand.operation);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .add("predicate", predicate)
+                .add("operation", operation)
+                .toString();
     }
 }
