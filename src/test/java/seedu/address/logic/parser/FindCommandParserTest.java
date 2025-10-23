@@ -53,6 +53,18 @@ public class FindCommandParserTest {
     }
 
     @Test
+    public void parse_nameKeywordOverridesDefault_returnsFindCommand() {
+        // no leading and trailing whitespaces
+        FindCommand expectedFindCommand =
+                new FindCommand(new NestedOrPredicate(
+                        new FieldContainsKeywordsPredicate(Arrays.asList("Alice"), SEARCH_PREFIX_NAME)));
+        assertParseSuccess(parser, "Bob -n Alice", expectedFindCommand);
+
+        // multiple whitespaces between keywords
+        assertParseSuccess(parser, "Bob \n -n Alice \t", expectedFindCommand);
+    }
+
+    @Test
     public void parse_addressArgs_returnsFindCommand() {
         FindCommand expectedFindCommand =
                 new FindCommand(new NestedOrPredicate(
