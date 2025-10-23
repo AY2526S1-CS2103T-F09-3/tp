@@ -1,0 +1,54 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant "ap:ArchiveCommandParser" as ArchiveCommandParser LOGIC_COLOR
+participant "ap:ArchiveCommand" as ArchiveCommand LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as Model MODEL_COLOR
+end box
+[-> LogicManager : execute(undo)
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand(archive)
+activate AddressBookParser
+
+create ArchiveCommandParser
+AddressBookParser -> ArchiveCommandParser : parse(arguments)
+activate ArchiveCommandParser
+
+create ArchiveCommand
+ArchiveCommandParser -> ArchiveCommand
+activate ArchiveCommand
+
+ArchiveCommand --> ArchiveCommandParser
+deactivate ArchiveCommand
+
+ArchiveCommandParser --> AddressBookParser
+deactivate ArchiveCommandParser
+
+AddressBookParser --> LogicManager : ap
+deactivate AddressBookParser
+
+LogicManager -> ArchiveCommand : execute()
+activate ArchiveCommand
+
+ArchiveCommand -> Model : model.setRecruit(archivedRecruit)
+activate Model
+
+Model --> ArchiveCommand
+deactivate Model
+
+ArchiveCommand --> LogicManager : result
+deactivate ArchiveCommand
+ArchiveCommand -[hidden]-> LogicManager : result
+destroy ArchiveCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml
