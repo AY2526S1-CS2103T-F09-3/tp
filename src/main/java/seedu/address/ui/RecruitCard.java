@@ -57,12 +57,8 @@ public class RecruitCard extends UiPart<Region> {
         recruit.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-        if (recruit.getArchiveStatus()) {
-            archivedLabel.setVisible(true);
-            archivedLabel.setManaged(true);
-        } else {
-            archivedLabel.setVisible(false);
-            archivedLabel.setManaged(false);
-        }
+
+        archivedLabel.setVisible(recruit.isArchived());
+        archivedLabel.setManaged(recruit.isArchived());
     }
 }

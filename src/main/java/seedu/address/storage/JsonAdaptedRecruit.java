@@ -67,7 +67,7 @@ class JsonAdaptedRecruit {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        isArchived = source.getArchiveStatus();
+        isArchived = source.isArchived();
     }
 
     /**

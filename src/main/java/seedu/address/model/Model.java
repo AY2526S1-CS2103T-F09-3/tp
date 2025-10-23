@@ -15,8 +15,8 @@ import seedu.address.model.recruit.Recruit;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Recruit> PREDICATE_SHOW_ALL_RECRUITS = unused -> true;
-    Predicate<Recruit> PREDICATE_SHOW_UNARCHVIED_RECRUITS = recruit -> !recruit.getArchiveStatus();
-    Predicate<Recruit> PREDICATE_SHOW_ARCHIVED_RECRUITS = Recruit::getArchiveStatus;
+    Predicate<Recruit> PREDICATE_SHOW_UNARCHVIED_RECRUITS = recruit -> !recruit.isArchived();
+    Predicate<Recruit> PREDICATE_SHOW_ARCHIVED_RECRUITS = Recruit::isArchived;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -92,13 +92,14 @@ public interface Model {
     Optional<Recruit> getFilteredRecruitByID(UUID id);
 
     /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered recruit list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredRecruitList(Predicate<Recruit> predicate);
 
     /**
-     * Refreshes the Recruit List
+     * Refreshes the recruit list on modification of recruits, ensuring that all
+     * listed recruits match the current {@code predicate}
      */
     void refreshFilteredRecruitList();
 

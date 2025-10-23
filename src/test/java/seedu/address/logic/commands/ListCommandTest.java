@@ -26,9 +26,9 @@ import seedu.address.model.recruit.Recruit;
 public class ListCommandTest {
 
     private static final Predicate<Recruit> SHOW_ALL_UNARCHIVED =
-            recruit -> !recruit.getArchiveStatus();
+            recruit -> !recruit.isArchived();
     private static final Predicate<Recruit> SHOW_ALL_ARCHIVED =
-            Recruit::getArchiveStatus;
+            Recruit::isArchived;
     private static final Predicate<Recruit> SHOW_ALL =
             recruit -> true;
 

@@ -20,6 +20,6 @@ public class CliSyntax {
     public static final Prefix SEARCH_PREFIX_ADDRESS = new Prefix("-a");
     public static final Prefix SEARCH_PREFIX_TAG = new Prefix("-t");
 
-    public static final Prefix LIST_ALL = new Prefix("-all");
-    public static final Prefix LIST_ARCHIVE = new Prefix("-archive");
+    public static final Prefix PREFIX_LIST_ALL = new Prefix("-all");
+    public static final Prefix PREFIX_LIST_ARCHIVE = new Prefix("-archive");
 }

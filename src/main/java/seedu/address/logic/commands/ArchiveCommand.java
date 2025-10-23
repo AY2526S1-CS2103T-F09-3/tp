@@ -45,7 +45,7 @@ public class ArchiveCommand extends Command {
 
         Recruit recruitToArchive = lastShownList.get(index.getZeroBased());
         assert recruitToArchive != null;
-        if (recruitToArchive.getArchiveStatus()) {
+        if (recruitToArchive.isArchived()) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
         Recruit archivedRecruit = archiveRecruit(recruitToArchive);

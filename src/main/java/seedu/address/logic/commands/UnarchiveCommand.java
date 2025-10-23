@@ -44,7 +44,7 @@ public class UnarchiveCommand extends Command {
 
         Recruit recruitToUnarchive = lastShownList.get(index.getZeroBased());
         assert recruitToUnarchive != null;
-        if (!recruitToUnarchive.getArchiveStatus()) {
+        if (!recruitToUnarchive.isArchived()) {
             throw new CommandException(RECRUIT_ALREADY_UNARCHIVED);
         }
 

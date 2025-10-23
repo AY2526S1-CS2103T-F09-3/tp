@@ -132,7 +132,7 @@ public class Recruit {
     /**
      * Returns boolean representing whether recruit entry is archived or not
      */
-    public boolean getArchiveStatus() {
+    public boolean isArchived() {
         return this.isArchived;
     }
 

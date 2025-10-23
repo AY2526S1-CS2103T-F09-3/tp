@@ -54,7 +54,7 @@ public class RecruitBuilder {
         email = recruitToCopy.getEmails();
         address = recruitToCopy.getAddresses();
         tags = new HashSet<>(recruitToCopy.getTags());
-        isArchived = recruitToCopy.getArchiveStatus();
+        isArchived = recruitToCopy.isArchived();
     }
 
     /**
@@ -140,7 +140,7 @@ public class RecruitBuilder {
     /**
      * Sets the {@code Archive Status} of the {@code Recruit} that we are building.
      */
-    public RecruitBuilder withArchiveStatus(boolean isArchived) {
+    public RecruitBuilder withArchivedStatus(boolean isArchived) {
         this.isArchived = isArchived;
         return this;
     }

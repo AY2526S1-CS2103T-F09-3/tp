@@ -24,7 +24,7 @@ public class ModelManager implements Model {
     private final VersionedAddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Recruit> filteredRecruits;
-    private Predicate<Recruit> currPredicate = null;
+    private Predicate<Recruit> currPredicate = PREDICATE_SHOW_UNARCHVIED_RECRUITS;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -140,8 +140,7 @@ public class ModelManager implements Model {
 
     @Override
     public void refreshFilteredRecruitList() {
-        updateFilteredRecruitList(this.currPredicate == null
-                ? PREDICATE_SHOW_UNARCHVIED_RECRUITS : this.currPredicate);
+        updateFilteredRecruitList(this.currPredicate);
     }
 
     public Optional<Recruit> getFilteredRecruitByID(UUID id) {
