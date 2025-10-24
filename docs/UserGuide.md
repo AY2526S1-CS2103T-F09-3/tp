@@ -147,23 +147,60 @@ Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd recruit to be `Betsy Crower` and clears all existing tags.
 
-### Locating recruits by name: `find`
+### Finding recruits : `find`
 
-Finds recruits whose names contain any of the given keywords.
+Finds and lists all recruits whose details match any of the given keywords. The search is **case-insensitive** and can be filtered by different fields using flags.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+If no flag is provided, the command searches by **name** by default.  
+If both default keyword(s) and name keyword(s) are specified, the **name keyword(s)** will take precedence.
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* `FLAG` specifies the field(s) to search under:
+    * `-id` — Search by Recruit ID
+    * `-n` — Search by Name
+    * `-p` — Search by Phone
+    * `-e` — Search by Email
+    * `-a` — Search by Address
+    * `-t` — Search by Tag
 
-Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `KEYWORD [MORE_KEYWORDS]...` are one or more search terms.  
+  Multiple keywords can be separated by the pipe symbol (`|`).
+
+If multiple flags are provided, the results will include recruits who satisfy all search criteria
+
+---
+
+**Shorthand formats:**
+* `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
+* `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
+* `find -a Clementi|Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
+* `find -t volunteer|intern` — Finds recruits tagged as **“volunteer”** or **“intern”**
+* `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
+* `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
+
+---
+
+**Chaining multiple search flags:**
+* `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose  
+* **address** contains “Clementi” or “Jurong”
+* `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
+* `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains 
+“Bukit” or “Pasir”
+---
+
+**Examples:**
+* `find alice` — Finds all recruits with “alice” in their name
+* `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
+* `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, 
+* and whose phone numbers contain “98765432” or “91234567”
+* `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
+* `find -id 123|456|789` — Finds recruits whose ID contains “123”, “456”, or “789”
+
+<box type="tip" seamless>
+Use the pipe symbol `|` to combine multiple search keywords, and use multiple flags to search across different fields.
+</box>
+
+  ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
+  ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
 
 ### Sorting recruits : `sort`
 
