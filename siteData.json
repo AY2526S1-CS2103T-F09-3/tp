@@ -115,6 +115,8 @@
         "listing-all-recruits-list": "Listing all recruits : list",
         "viewing-a-recruit-view": "Viewing a recruit : view",
         "editing-a-recruit-edit": "Editing a recruit : edit",
+        "undoing-previously-done-operations-undo": "Undoing previously done operations: undo",
+        "redoing-undone-operations-redo": "Redoing undone operations: redo",
         "locating-recruits-by-name-find": "Locating recruits by name: find",
         "sorting-recruits-sort": "Sorting recruits : sort",
         "archiving-a-recruit-archive": "Archiving a recruit : archive",
