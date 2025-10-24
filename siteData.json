@@ -109,6 +109,7 @@
       "headings": {
         "talentnexus-user-guide": "TalentNexus User Guide",
         "quick-start": "Quick start",
+        "command-summary": "Command summary",
         "features": "Features",
         "viewing-help-help": "Viewing help : help",
         "adding-a-recruit-add": "Adding a recruit: add",
@@ -127,8 +128,7 @@
         "exporting-recruit-data-export": "Exporting recruit data: export",
         "editing-the-data-file": "Editing the data file",
         "faq": "FAQ",
-        "known-issues": "Known issues",
-        "command-summary": "Command summary"
+        "known-issues": "Known issues"
       },
       "headingKeywords": {}
     },
