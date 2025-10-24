@@ -96,7 +96,10 @@ Format: `help`
 
 Adds a recruit to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS d/DESCRIPTION [t/TAG]…​`
+* You may specify more than one recruit attributes like names and email addresses.
+* You may also provide names in various langugaes.
+
+Format: `add [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -107,6 +110,7 @@ Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
 * `add n/Jenny Mantle p/66612873 e/jenneram@example.com a/Shadow maze, block 3, #01-01 d/Considered a friend inside t/boss`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/田中小泉 n/Max e/koizumi@example.com e/max@example.com a/30 Princess Gina Park t/swe t/test_engineer`
 
 ### Listing all recruits : `list`
 
@@ -133,21 +137,56 @@ Examples:
 
 Edits an existing recruit in the address book.
 
-Format: `edit INDEX/UUID [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/DESCRIPTION] [t/TAG]…​`
+Format: `edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDRESS]... [d/DESCRIPTION]... [t/TAG]…​`
 
 * Edits the recruit at the specified `INDEX` or `UUID`.
+* Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the recruit will be removed i.e adding of tags is not cumulative.
-* You can remove all the recruit’s tags by typing `t/` without
-    specifying any tags after it.
+* You can remove all the recruit’s tags by typing `t/` without specifying any tags after it.
+
+#### Flags
+* `OPERATION`: `-ap` for append, `-rm` for remove, `-o` for overwrite.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st recruit to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd recruit to be `Betsy Crower` and clears all existing tags.
 
-### Finding recruits : `find`
+### Undoing previously done operations: `undo`
+
+Undoes operations that were done recently. 
+
+Format: `undo​`
+
+Examples usage scenario:
+1. You add an additional Japanese name to recruit John.
+2. You delete recruit Li
+3. You accidentally cleared all recruits
+4. You type `undo` to restore all the recruits
+5. You realise that you meant instead to delete recruit Lee instead of Li
+6. You type `undo` again to undo deletion of recruit Li
+
+
+### Redoing undone operations: `redo`
+
+Redoes operations that were undone recently. 
+
+<box type="warning" seamless>
+
+**Warning:** Note that if you have undone some operations, and you perform operations that modify any recruit, you will not be able to redo these undone operations anymore.
+</box>
+
+Format: `redo`
+
+Examples usage scenario:
+1. You delete recruit Li
+2. You realise you still need recruit Li's email 
+3. You type `undo` to undo deletion of recruit Li and check his email
+5. You type `redo` again to redo the deletion of Recruit Li
+
+### Locating recruits by name: `find`
 
 Finds and lists all recruits whose details match any of the given keywords. The search is **case-insensitive** and can be filtered by different fields using flags.
 
@@ -228,7 +267,7 @@ Examples:
 
 <box type="tip" seamless>
 
-💡 **Tip:** Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.
+**Tip:** Use multiple sort criteria to organize your recruits more precisely. The leftmost field has the highest priority.
 </box>
 
 ### Archiving a recruit : `archive`
@@ -252,7 +291,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 
 <box type="info" seamless>
 
-💡 **Tip:** Archive recruits you no longer actively work with to keep your main list clean and focused!
+**Tip:** Archive recruits you no longer actively work with to keep your main list clean and focused!
 </box>
 
 ### Unarchiving a recruit : `unarchive`
@@ -271,7 +310,7 @@ Unarchives a previously archived recruit to restore them to the active recruit l
 
 <box type="tip" seamless>
 
-💡 **Tip:** To unarchive a recruit, first use `list -archive` to view your archived recruits, then use `unarchive INDEX`.
+**Tip:** To unarchive a recruit, first use `list -archive` to view your archived recruits, then use `unarchive INDEX`.
 </box>
 
 ### Viewing archived recruits
@@ -307,8 +346,6 @@ Clears all entries from the address book.
 
 Format: `clear`
 
-⚠️ **Warning:** This action cannot be undone.
-
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -327,7 +364,7 @@ Examples:
 *  `export` Exports all recruits to the default filepath found in preferences.json.
 *  `export ./data/recruits.csv` Exports all recruits to the relative filepath ./data/recruits.csv.
 
-💡 **Tip:** Use CSV exports to share data easily between users.
+**Tip:** Use CSV exports to share data easily between users.
 
 ### Saving the data
 
