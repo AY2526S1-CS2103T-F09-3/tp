@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import seedu.address.commons.util.Interval;
+
 /**
  * Tokenizes arguments string of the form: {@code preamble <prefix>value <prefix>value ...}<br>
  *     e.g. {@code some preamble text t/ 11.00 t/12.00 k/ m/ July}  where prefixes are {@code t/ k/ m/}.<br>
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
  * 2. Leading and trailing whitespaces of an argument value will be discarded.<br>
  * 3. An argument may be repeated and all its values will be accumulated e.g. the value of {@code t/}
  *    in the above example.<br>
+ * 4. Anything between two unescaped doublequote will be treated as an argument string.
  */
 public class ArgumentTokenizer {
 
@@ -89,6 +92,14 @@ public class ArgumentTokenizer {
         // Sort by start position
         prefixPositions.sort((prefix1, prefix2) -> prefix1.getStartPosition() - prefix2.getStartPosition());
 
+        // Find all the intervals of indexes surrounded by (and inclusive of) double-quote
+        List<Interval<Integer>> escapeIntervals = findAllDoubleQuoteIndexes(argsString);
+
+        // Filter prefixes that fall within an escape interval
+        prefixPositions = new ArrayList<>(prefixPositions.stream()
+                .filter(p -> escapeIntervals.stream().noneMatch(v -> v.contains(p.getStartPosition())))
+                .toList());
+
         // Insert a PrefixPosition to represent the preamble
         PrefixPosition preambleMarker = new PrefixPosition(new Prefix(""), 0);
         prefixPositions.add(0, preambleMarker);
@@ -97,12 +108,16 @@ public class ArgumentTokenizer {
         PrefixPosition endPositionMarker = new PrefixPosition(new Prefix(""), argsString.length());
         prefixPositions.add(endPositionMarker);
 
+
         // Map prefixes to their argument values (if any)
         ArgumentMultimap argMultimap = new ArgumentMultimap();
         for (int i = 0; i < prefixPositions.size() - 1; i++) {
+            PrefixPosition currentPrefixPosition = prefixPositions.get(i);
+
             // Extract and store prefixes and their arguments
-            Prefix argPrefix = prefixPositions.get(i).getPrefix();
-            String argValue = extractArgumentValue(argsString, prefixPositions.get(i), prefixPositions.get(i + 1));
+            Prefix argPrefix = currentPrefixPosition.getPrefix();
+            String argValue = extractArgumentValue(argsString, currentPrefixPosition, prefixPositions.get(i + 1));
+
             argMultimap.put(argPrefix, argValue);
         }
 
@@ -119,9 +134,46 @@ public class ArgumentTokenizer {
         Prefix prefix = currentPrefixPosition.getPrefix();
 
         int valueStartPos = currentPrefixPosition.getStartPosition() + prefix.getPrefix().length();
-        String value = argsString.substring(valueStartPos, nextPrefixPosition.getStartPosition());
+        String value = argsString.substring(valueStartPos, nextPrefixPosition.getStartPosition())
+            .trim()
+            .replace("\\\"", "\""); // remove backslash from escaped double-quote
 
-        return value.trim();
+        value = value.trim();
+        if (value.isEmpty()) {
+            return value;
+        }
+
+        // Remove double-quote escape from the actual value
+        if (value.charAt(0) == '"' && value.charAt(value.length() - 1) == '"') {
+            value = value.substring(1, value.length() - 1);
+        }
+
+        return value;
+    }
+
+    private static List<Interval<Integer>> findAllDoubleQuoteIndexes(String s) {
+        int index = s.indexOf('"');
+        List<Interval<Integer>> intervals = new ArrayList<>();
+
+        int start = -1;
+
+        while (index != -1) {
+            if (index != 0 && s.charAt(index - 1) == '\\') {
+                index = s.indexOf('"', index + 1);
+                continue;
+            }
+
+            if (start == -1) {
+                start = index;
+            } else {
+                intervals.add(new Interval<>(start, index));
+                start = -1;
+            }
+
+            index = s.indexOf('"', index + 1);
+        }
+
+        return intervals;
     }
 
     /**
@@ -144,5 +196,4 @@ public class ArgumentTokenizer {
             return prefix;
         }
     }
-
 }

@@ -10,13 +10,14 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Name implements Comparable<Name> {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Names should only contain alphanumeric characters and spaces, and it should not be blank";
+            "Names should only contain alphanumeric characters, spaces, and "
+            + "allowed symbols (comma, dash, at, and slash), and it must not be blank";
 
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String VALIDATION_REGEX = "[\\p{L}\\p{N}][\\p{L}\\p{N} ]*";
+    public static final String VALIDATION_REGEX = "[\\p{L}\\p{N}\\-,/@][\\p{L}\\p{N}\\-,/@ ]*";
 
     public final String fullName;
 

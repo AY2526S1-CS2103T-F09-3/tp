@@ -19,7 +19,7 @@ import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
 
 public class JsonAdaptedRecruitTest {
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NAME = "$hun";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
