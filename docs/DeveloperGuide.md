@@ -503,7 +503,7 @@ testers are expected to do more *exploratory* testing.
 
 1. Deleting a recruit while all recruits are being shown
 
-    1. Prerequisites: List all recruits using the `list` command. Multiple recruits in the list.
+    1. Prerequisites: List all recruits using the `list` command. There exists multiple recruits in the list.
 
     1. Test case: `delete 1`<br>
        Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
@@ -515,6 +515,23 @@ testers are expected to do more *exploratory* testing.
        Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
+
+### Exporting recruits
+
+1. Exporting recruits using the default path
+
+    1. Prerequisites: Ensure the default export path is set in preferences.json.
+
+    1. Test case: `export`<br>
+       Expected: A .csv file containing all recruits is created in the default export path.
+
+2. Exporting recruits to a specified path
+
+    1. Ensure the target directory exists and is writable.
+
+    1. Test case: `export C:\data\recruits.csv`<br>
+       Expected: A file *recruits.csv* created at *C:\data\recruits.csv*.
+
 
 ### Saving data
 
