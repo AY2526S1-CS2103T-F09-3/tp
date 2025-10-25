@@ -332,15 +332,23 @@
     -fx-text-fill: #F70D1A;
 }
 
-#commandTextField {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-    -fx-border-color: transparent transparent #ffffff transparent;
-    -fx-border-insets: 0;
-    -fx-border-width: 1;
-    -fx-font-family: "Segoe UI Light";
+#commandTextArea {
+    -fx-font-family: "Monospace", "Monospaced", "Consolas", "Courier New";
     -fx-font-size: 13pt;
     -fx-text-fill: white;
+    -fx-border-color: transparent transparent #ffffff transparent;
+    -fx-border-width: 1;
+    -fx-background-color: transparent;
+}
+
+/* Required to remove white default backrgound of TextArea */
+#commandTextArea .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Required to remove white default backrgound of TextArea */
+#commandTextArea .content {
+    -fx-background-color: transparent;
 }
 
 #filterField, #recruitListPanel, #recruitWebpage {
