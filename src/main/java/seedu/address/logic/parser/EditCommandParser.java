@@ -45,33 +45,27 @@ public class EditCommandParser implements Parser<EditCommand> {
                         PREFIX_DESCRIPTION, PREFIX_TAG,
                         EDIT_PREFIX_APPEND, EDIT_PREFIX_OVERWRITE, EDIT_PREFIX_REMOVE);
 
+        String preamble = argMultimap.getPreamble().trim();
+
         UUID id = null;
         Index index = null;
 
-        // try parsing id
-        ParseException pe = null;
+        // Try parsing as UUID first
         try {
-            id = ParserUtil.parseID(argMultimap.getPreamble());
+            id = ParserUtil.parseID(preamble);
         } catch (ParseException e) {
-            pe = e;
-        }
-
-        // try parsing index
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException e) {
-            pe = e;
-        }
-
-        // if both are null, input is invalid
-        if (isNull(id) && isNull(index)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
+            // Not a valid UUID, try parsing as index
+            try {
+                index = ParserUtil.parseIndex(preamble);
+            } catch (ParseException e2) {
+                throw new ParseException(
+                        String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), e2);
+            }
         }
 
         EditRecruitDescriptor.EditRecruitOperation operation = parseEditOperation(argMultimap);
         EditRecruitDescriptor editRecruitDescriptor = new EditCommand.EditRecruitDescriptor(operation);
         LogsCenter.getLogger(EditCommandParser.class).info(editRecruitDescriptor.getOperation().toString());
-
 
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editRecruitDescriptor.setNames(
@@ -95,17 +89,14 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editRecruitDescriptor::setTags);
 
-        // TODO: perhaps this should be refactored to throw if the resulting recruit is the same after the operation
-        // rahter than checking merely for the descriptor attributes.
         if (!editRecruitDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
-
-        if (isNull(id)) {
+        if (id != null) {
+            return new EditCommand(id, editRecruitDescriptor);
+        } else {
             return new EditCommand(index, editRecruitDescriptor, operation);
         }
-
-        return new EditCommand(id, editRecruitDescriptor);
     }
 
     /**

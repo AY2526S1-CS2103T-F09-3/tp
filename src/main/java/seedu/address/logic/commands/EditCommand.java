@@ -45,9 +45,9 @@ public class EditCommand extends Command {
     public static final String OPERATION_DESCRIPTOR = "modification of recruit:\n%s";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the recruit identified "
-            + "by the index number used in the displayed recruit list. "
+            + "by the index/uuide used in the displayed recruit list. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: INDEX/UUID "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -114,43 +114,41 @@ public class EditCommand extends Command {
         this.editRecruitDescriptor = new EditRecruitDescriptor(editRecruitDescriptor, operation);
     }
 
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        Recruit recruitToEdit;
 
-        // handle edit by index
-        if (id == null) {
-            Recruit recruitToEdit = model.getFilteredRecruitList().get(index.getZeroBased());
-            Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
-
-            model.setRecruit(recruitToEdit, editedRecruit);
-            model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editedRecruit)));
-            model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
-            return new CommandResult(String.format(
-                    MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit, editedRecruit)));
+        if (id != null) {
+            recruitToEdit = model.getAddressBook().getRecruitList().stream()
+                    .filter(recruit -> recruit.getID().equals(id))
+                    .findFirst()
+                    .orElseThrow(() -> new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID));
+        } else if (index != null) {
+            List<Recruit> lastShownList = model.getFilteredRecruitList();
+            if (index.getZeroBased() < 0 || index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_DISPLAYED_INDEX);
+            }
+            recruitToEdit = lastShownList.get(index.getZeroBased());
+        } else {
+            throw new CommandException(Messages.MESSAGE_NO_ID_OR_INDEX);
         }
 
-        // handle edit by id
-        List<Recruit> recruits = model.getAddressBook().getRecruitList();
-        Optional<Recruit> recruitToEdit = recruits.stream()
-                .filter(recruit -> recruit.getID().equals(this.id))
-                .findFirst();
+        Recruit editedRecruit = createEditedRecruit(recruitToEdit, editRecruitDescriptor);
 
-        if (recruitToEdit.isEmpty()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_RECRUIT_ID);
-        }
-
-        Recruit editedRecruit = createEditedRecruit(recruitToEdit.get(), editRecruitDescriptor);
-        if (!recruitToEdit.get().isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
+        if (!recruitToEdit.isSameRecruit(editedRecruit) && model.hasRecruit(editedRecruit)) {
             throw new CommandException(MESSAGE_DUPLICATE_RECRUIT);
         }
-        model.setRecruit(recruitToEdit.get(), editedRecruit);
 
-        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit.get(), editedRecruit)));
+        model.setRecruit(recruitToEdit, editedRecruit);
+        model.commitAddressBook(String.format(OPERATION_DESCRIPTOR, formatDelta(recruitToEdit, editedRecruit)));
         model.updateFilteredRecruitList(PREDICATE_SHOW_ALL_RECRUITS);
-        return new CommandResult(String.format(
-                MESSAGE_EDIT_RECRUIT_SUCCESS, formatDelta(recruitToEdit.get(), editedRecruit)));
+
+        return new CommandResult(String.format(MESSAGE_EDIT_RECRUIT_SUCCESS,
+                formatDelta(recruitToEdit, editedRecruit)));
     }
+
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
