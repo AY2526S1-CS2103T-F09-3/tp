@@ -13,7 +13,7 @@ activate Model
 Model -> VersionedAddressBook : undo()
 activate VersionedAddressBook
 
-VersionedAddressBook -> VersionedAddressBook :resetData(ReadOnlyAddressBook)
+VersionedAddressBook -> VersionedAddressBook :setRecruits(ObservableList<Recruit>)
 VersionedAddressBook --> Model :
 deactivate VersionedAddressBook
 
