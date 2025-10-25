@@ -67,9 +67,7 @@ public class ArchiveCommand extends Command {
      */
     private static Recruit archiveRecruit(Recruit recruitToEdit) {
         assert recruitToEdit != null;
-        return new Recruit(recruitToEdit.getID(), recruitToEdit.getNames(), recruitToEdit.getPhones(),
-                recruitToEdit.getEmails(), recruitToEdit.getAddresses(), recruitToEdit.getDescription(),
-                recruitToEdit.getTags(), true);
+        return recruitToEdit.archive();
     }
 
     @Override

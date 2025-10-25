@@ -1,11 +1,8 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,6 +14,7 @@ import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -71,7 +69,7 @@ class JsonAdaptedRecruit {
         description = source.getDescription().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
-                .collect(Collectors.toList()));
+                .toList());
         isArchived = source.isArchived();
     }
 
@@ -131,9 +129,16 @@ class JsonAdaptedRecruit {
         }
         final Description modelDescription = new Description(description);
 
-        final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Recruit(modelId, modelNames, modelPhones, modelEmails, modelAddresses,
-                modelDescription, modelTags, isArchived);
+        return new RecruitBuilder()
+                .setUuid(modelId)
+                .withNames(modelNames)
+                .withPhones(modelPhones)
+                .withEmails(modelEmails)
+                .withAddresses(modelAddresses)
+                .withDescription(modelDescription)
+                .withTags(personTags)
+                .withArchivalState(isArchived)
+                .build();
     }
 
 }

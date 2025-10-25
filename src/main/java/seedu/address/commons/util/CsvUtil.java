@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,7 @@ import seedu.address.model.recruit.Email;
 import seedu.address.model.recruit.Name;
 import seedu.address.model.recruit.Phone;
 import seedu.address.model.recruit.Recruit;
+import seedu.address.model.recruit.RecruitBuilder;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -130,14 +130,22 @@ public class CsvUtil {
                     .map(s -> s.replaceAll("^\"|\"$", ""))
                     .map(Address::new)
                     .toList();
-            Set<Tag> tags = Arrays.stream(cols[5].split(";"))
+            List<Tag> tags = Arrays.stream(cols[5].split(";"))
                     .map(s -> s.replaceAll("^\\[|\\]$", ""))
                     .map(Tag::new)
-                    .collect(Collectors.toSet());
+                    .toList();
             Description description = new Description(cols[6]);
             boolean isArchived = Boolean.parseBoolean(cols[7]);
 
-            recruits.add(new Recruit(id, names, phones, emails, addresses, description, tags, isArchived));
+            recruits.add(new RecruitBuilder()
+                    .withNames(names)
+                    .withPhones(phones)
+                    .withEmails(emails)
+                    .withAddresses(addresses)
+                    .withDescription(description)
+                    .withTags(tags)
+                    .withArchivalState(isArchived)
+                    .build());
         }
         return recruits;
     }

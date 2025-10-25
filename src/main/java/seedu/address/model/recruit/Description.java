@@ -28,6 +28,14 @@ public class Description {
         this.value = description;
     }
 
+    /**
+     * Copy constructor for {@code Description}
+     * @param other
+     */
+    public Description(Description other) {
+        this.value = other.value;
+    }
+
     public static boolean isValidDescription(String test) {
         return test.matches(VALIDATION_REGEX);
     }

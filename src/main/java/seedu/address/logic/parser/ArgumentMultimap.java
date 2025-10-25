@@ -30,29 +30,34 @@ public class ArgumentMultimap {
      * @param argValue Argument value to be associated with the specified prefix key
      */
     public void put(Prefix prefix, String argValue) {
-        List<String> argValues = getAllValues(prefix);
-        argValues.add(argValue);
-        argMultimap.put(prefix, argValues);
+        if (!argMultimap.containsKey(prefix)) {
+            argMultimap.put(prefix, new ArrayList<>());
+        }
+        argMultimap.get(prefix).add(argValue);
+    }
+
+    /**
+     * Returns the last value of {@code prefix}.
+     */
+    public boolean hasValue(Prefix prefix) {
+        return this.argMultimap.containsKey(prefix);
     }
 
     /**
      * Returns the last value of {@code prefix}.
      */
     public Optional<String> getValue(Prefix prefix) {
-        List<String> values = getAllValues(prefix);
-        return values.isEmpty() ? Optional.empty() : Optional.of(values.get(values.size() - 1));
+        return Optional.ofNullable(this.getAllValues(prefix)).map(vs -> vs.get(vs.size() - 1));
     }
 
     /**
      * Returns all values of {@code prefix}.
-     * If the prefix does not exist or has no values, this will return an empty list.
+     * If the prefix does not exist it will return null.
+     * If the prefix has no values, it will return an empty List.
      * Modifying the returned list will not affect the underlying data structure of the ArgumentMultimap.
      */
     public List<String> getAllValues(Prefix prefix) {
-        if (!argMultimap.containsKey(prefix)) {
-            return new ArrayList<>();
-        }
-        return new ArrayList<>(argMultimap.get(prefix));
+        return argMultimap.get(prefix);
     }
 
     /**

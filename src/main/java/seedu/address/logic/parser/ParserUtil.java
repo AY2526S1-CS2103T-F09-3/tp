@@ -195,10 +195,11 @@ public class ParserUtil {
             throw new ParseException(MESSAGE_INVALID_FILEPATH, e);
         }
     }
+
     /**
      * Parses all values from ArgumentMultimap for the given prefix using the given parser.
      */
-    public static <T> List<T> parseAllValues(
+    private static <T> List<T> parseAllValues(
             List<String> values, ParserFunction<String, T> parser) throws ParseException {
         List<T> parsedValues = new ArrayList<>();
         for (String s : values) {
@@ -206,6 +207,55 @@ public class ParserUtil {
         }
 
         return parsedValues;
+    }
+
+    /**
+     * Uses the result of extracting {@link Prefix} values from the provided {@link ArgumentMultimap}
+     * and uses the provided {@link ParserFunction} to parse the values into the appropriate types.
+     * It stores these values in a {@link List} of that type.
+     *
+     * @param prefix The prefix to search for within the ArgumentMultimap
+     * @param map The processed ArgumentMultimap
+     * @param parserFunction the function that converts the List of Strings extracted from
+     *                       the ArgumentMultiMap into it's appropriate type
+     * @return null if the corresponding prefix does not exist in the map.
+     *         A List of items of type T if the prefix exists in the map.
+     * @throws ParseException If the ParserFunction is unable to parse the List of Strings extracted
+     *                        from the ArgumentMultimap
+     */
+    public static <T> List<T> extractValuesFromMultimap(
+            Prefix prefix, ArgumentMultimap map,
+            ParserFunction<String, T> parserFunction)
+            throws ParseException {
+        if (!map.hasValue(prefix)) {
+            return null;
+        }
+
+        return ParserUtil.parseAllValues(map.getAllValues(prefix), parserFunction);
+    }
+
+    /**
+     * Uses the result of extracting {@link Prefix} values from the provided {@link ArgumentMultimap}
+     * and uses the provided {@link ParserFunction} to parse the values into the appropriate types.
+     * It returns only parses and returns the last element.
+     *
+     * @param prefix The prefix to search for within the ArgumentMultimap
+     * @param map The processed ArgumentMultimap
+     * @param parserFunction the function that converts the List of Strings extracted from
+     *                       the ArgumentMultiMap into it's appropriate type
+     * @return null if the corresponding prefix does not exist in the map.
+     *         The last element of type T that is found.
+     * @throws ParseException If the ParserFunction is unable to parse the List of Strings extracted
+     *                        from the ArgumentMultimap
+     */
+    public static <T> T extractValueFromMultimap(
+            Prefix prefix, ArgumentMultimap map,
+            ParserFunction<String, T> parserFunction) throws ParseException {
+        if (!map.hasValue(prefix)) {
+            return null;
+        }
+
+        return parserFunction.apply(map.getValue(prefix).orElse(null));
     }
 
     /**
