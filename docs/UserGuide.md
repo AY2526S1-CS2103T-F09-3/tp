@@ -29,17 +29,17 @@ TalentNexus is a **desktop app for managing recruits, optimized for use via a  L
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * [`help`](#viewing-help--help) : Shows help information.
+    * [`help`](#viewing-help--help) : Shows help information.
 
-   * [`list`](#listing-all-recruits--list) : Lists all recruits.
+    * [`list`](#listing-all-recruits--list) : Lists all recruits.
 
-   * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
+    * [`add`](#adding-a-recruit-add) `n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a recruit named `John Doe` to the Address Book.
 
-   * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
+    * [`edit`](#editing-a-recruit--edit) `1 p/91234567` : Edits the phone number of the 1st recruit.
 
-   * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
+    * [`find`](#locating-recruits-by-name-find) `John` : Finds recruits with "John" in their name.
 
-   * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
+    * [`delete`](#deleting-a-recruit--delete) `3` : Deletes the 3rd recruit shown in the current list.
 
 6. Refer to the [Features](#features) below for details of each command.
 
@@ -86,7 +86,7 @@ Action        | Format, Examples
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</box>
+  </box>
 
 ### Viewing help : `help`
 
@@ -119,8 +119,19 @@ Examples:
 
 ### Listing all recruits : `list`
 
-Shows a list of all recruits in the address book.
+Shows a list of all unarchived recruits in the address book.
 
+You can view [**archived**](#archiving-a-recruit--archive) recruits using the `list` command with flags:
+
+**Formats:**
+* `list` — Shows only unarchived (active) recruits (default)
+* `list -archive` — Shows only archived recruits
+* `list -all` — Shows all recruits (both archived and unarchived)
+
+**Examples:**
+* `list -archive` displays all archived recruits
+* `list -all` displays all recruits regardless of archive status
+*
 Format: `list`
 
 ### Viewing a recruit : `view`
@@ -236,7 +247,7 @@ If multiple flags are provided, the results will include recruits who satisfy al
 * **address** contains “Clementi” or “Jurong”
 * `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
 * `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
-“Bukit” or “Pasir”
+  “Bukit” or “Pasir”
 ---
 
 **Examples:**
@@ -251,8 +262,8 @@ If multiple flags are provided, the results will include recruits who satisfy al
 **Tip:** Use the pipe symbol `|` to combine multiple search keywords, and use multiple flags to search across different fields.
 </box>
 
-  ![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
-  ![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
+![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
 
 ### Sorting recruits : `sort`
 
@@ -293,7 +304,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 * The index **must be a positive integer** 1, 2, 3, …​
 
 **What is archiving?**
-* Archived recruits are hidden from the default `list` view but remain in the system
+* Archived recruits are hidden from the default [**`list`**](#listing-all-recruits--list) view but remain in the system
 * Use this feature to organize inactive or past recruits without deleting their data
 * View archived recruits using `list -archive` or `list -all`
 
@@ -308,7 +319,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 
 ### Unarchiving a recruit : `unarchive`
 
-Unarchives a previously archived recruit to restore them to the active recruit list.
+Unarchives a previously [**archived**](#archiving-a-recruit--archive) recruit to restore them to the active recruit list.
 
 **Format:** `unarchive INDEX`
 
@@ -324,19 +335,6 @@ Unarchives a previously archived recruit to restore them to the active recruit l
 
 **Tip:** To unarchive a recruit, first use `list -archive` to view your archived recruits, then use `unarchive INDEX`.
 </box>
-
-#### Viewing archived recruits
-
-You can view archived recruits using the `list` command with flags:
-
-**Formats:**
-* `list` — Shows only unarchived (active) recruits (default)
-* `list -archive` — Shows only archived recruits
-* `list -all` — Shows all recruits (both archived and unarchived)
-
-**Examples:**
-* `list -archive` displays all archived recruits
-* `list -all` displays all recruits regardless of archive status
 
 ### Deleting a recruit : `delete`
 
@@ -394,7 +392,7 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 * If your changes to the data file make its format invalid, TalentNexus will discard all data and start with an empty data file at the next run. Hence, it is **strongly recommended** to take a backup of the file before editing it.
 * Furthermore, certain edits can cause TalentNexus to behave in unexpected ways (e.g., if a value entered is outside the acceptable range).
 * Therefore, edit the data file only if you are confident that you can update it correctly.
-</box>
+  </box>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -402,6 +400,74 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+
+---
+
+**Q:** Can I use TalentNexus without an internet connection?  
+**A:** Yes. TalentNexus is a fully offline desktop application — no internet connection is required for any of its features.
+
+---
+
+**Q:** What happens if I accidentally delete a recruit?  
+**A:** You can restore deleted recruits immediately using the `undo` command (`undo`), as long as you haven’t closed the application since the deletion.
+
+---
+
+**Q:** How do I back up my data?  
+**A:** Copy the `addressbook.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
+
+---
+
+**Q:** Can I import data from another AddressBook or TalentNexus installation?  
+**A:** Yes. Copy the `addressbook.json` file from the other installation into your current `/data` folder, replacing the existing file. **Always back up** your current `addressbook.json` first.
+
+---
+
+**Q:** Why are my changes not appearing after restarting the app?  
+**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `addressbook.json` file is in the `/data` folder relative to the `.jar` file you run.
+
+---
+
+**Q:** What if I enter invalid data directly into the JSON file?  
+**A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file to an empty state. Always back up the file before making manual edits.
+
+---
+
+**Q:** How do I view archived recruits?  
+**A:** Use `list -archive` to show only archived recruits, or `list -all` to view both archived and active recruits.
+
+---
+
+**Q:** What should I do if a command doesn’t work?  
+**A:** Check your command syntax against the [**Command summary**](#command-summary) and the relevant command section. You can also run `help` to view the quick command guide.
+
+---
+
+**Q:** How do I reset the application to its default state?  
+**A:** Delete both `preferences.json` and `addressbook.json` from the data directory. On next launch the app will recreate default files and sample data.
+
+---
+
+**Q:** How do I run TalentNexus with a specific Java version?  
+**A:** Ensure the desired JDK is installed and on your `PATH`. Run the app with that Java binary, e.g.:
+
+**Q:** Where can I find the JSON schema or data format?  
+**A:** The primary data file is `addressbook.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. If you plan to edit the file manually, back it up first and ensure you preserve valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
+
+---
+
+**Q:** The Help window opened off-screen or is minimized — what do I do?  
+**A:** Close the app and delete `preferences.json` in the data directory to reset window positions. Relaunch the app to restore windows to default locations.
+
+---
+
+**Q:** Is there a limit to how many operations I can undo?  
+**A:** You can perform up to 200 consecutive `undo` operations. Note that certain actions (like closing the app) may clear the undo history.
+
+---
+
+**Q:** Who do I contact for bug reports or feature requests?  
+**A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `addressbook.json` (sanitized if needed), and the Java version used.
 
 --------------------------------------------------------------------------------------------------------------------
 
