@@ -83,7 +83,7 @@ public class SortCommandTest {
 
         SortCommand sortCommand = new SortCommand(criteria);
 
-        Comparator<Recruit> comparator = Comparator.comparing(recruit -> recruit.getPhone().value);
+        Comparator<Recruit> comparator = Comparator.comparing(recruit -> recruit.getPhone().get().value);
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-p (ascending)");
@@ -92,8 +92,8 @@ public class SortCommandTest {
         // Verify the list is sorted by phone number
         var recruitList = model.getFilteredRecruitList();
         for (int i = 0; i < recruitList.size() - 1; i++) {
-            String currentPhone = recruitList.get(i).getPhone().value;
-            String nextPhone = recruitList.get(i + 1).getPhone().value;
+            String currentPhone = recruitList.get(i).getPhone().get().value;
+            String nextPhone = recruitList.get(i + 1).getPhone().get().value;
             assertFalse(currentPhone.compareTo(nextPhone) > 0,
                     "Recruits should be sorted by phone number. Found: "
                     + currentPhone + " before " + nextPhone);
@@ -108,7 +108,7 @@ public class SortCommandTest {
         SortCommand sortCommand = new SortCommand(criteria);
 
         Comparator<Recruit> comparator = Comparator.comparing((
-                Recruit recruit) -> recruit.getEmail().value.toLowerCase()).reversed();
+                Recruit recruit) -> recruit.getEmail().get().value.toLowerCase()).reversed();
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-e (descending)");
@@ -117,8 +117,8 @@ public class SortCommandTest {
         // Verify the list is sorted in reverse order by email
         var recruitList = model.getFilteredRecruitList();
         for (int i = 0; i < recruitList.size() - 1; i++) {
-            String currentEmail = recruitList.get(i).getEmail().value.toLowerCase();
-            String nextEmail = recruitList.get(i + 1).getEmail().value.toLowerCase();
+            String currentEmail = recruitList.get(i).getEmail().get().value.toLowerCase();
+            String nextEmail = recruitList.get(i + 1).getEmail().get().value.toLowerCase();
             assertFalse(currentEmail.compareTo(nextEmail) < 0,
                     "Recruits should be sorted by email in reverse order. Found: "
                     + currentEmail + " before " + nextEmail);
@@ -133,7 +133,7 @@ public class SortCommandTest {
         SortCommand sortCommand = new SortCommand(criteria);
 
         Comparator<Recruit> comparator = Comparator.comparing(
-                recruit -> recruit.getAddress().value.toLowerCase());
+                recruit -> recruit.getAddress().get().value.toLowerCase());
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS, "-a (ascending)");
@@ -151,8 +151,8 @@ public class SortCommandTest {
 
         Comparator<Recruit> comparator = Comparator
                 .comparing((Recruit recruit) -> recruit.getName().fullName.toLowerCase())
-                .thenComparing(Comparator.comparing((Recruit r) -> r.getPhone().value).reversed())
-                .thenComparing(recruit -> recruit.getEmail().value.toLowerCase());
+                .thenComparing(Comparator.comparing((Recruit r) -> r.getPhone().get().value).reversed())
+                .thenComparing(recruit -> recruit.getEmail().get().value.toLowerCase());
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS,
@@ -172,9 +172,9 @@ public class SortCommandTest {
 
         Comparator<Recruit> comparator = Comparator
                 .comparing((Recruit recruit) -> recruit.getName().fullName.toLowerCase())
-                .thenComparing(recruit -> recruit.getPhone().value)
-                .thenComparing(recruit -> recruit.getEmail().value.toLowerCase())
-                .thenComparing(recruit -> recruit.getAddress().value.toLowerCase());
+                .thenComparing(recruit -> recruit.getPhone().get().value)
+                .thenComparing(recruit -> recruit.getEmail().get().value.toLowerCase())
+                .thenComparing(recruit -> recruit.getAddress().get().value.toLowerCase());
         expectedModel.sortRecruits(comparator);
 
         String expectedMessage = String.format(SortCommand.MESSAGE_SUCCESS,

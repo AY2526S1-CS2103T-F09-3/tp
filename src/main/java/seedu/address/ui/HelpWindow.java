@@ -23,22 +23,44 @@ public class HelpWindow extends UiPart<Stage> {
             TLDR List of Commands:
             \s
             1. Create recruit
-            create [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]...
+            add n/NAME... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             2. View recruit
-            view UUID
+            view INDEX/UUID
             \s
             3. Edit recruit's details
-            edit UUID [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG]...
+            edit INDEX/UUID OPERATION [n/NAME]... [p/PHONE_NUMBER]... [e/EMAIL]... [a/ADDRESS]... [t/TAG]...
             \s
             4. Delete recruit
-            delete UUID [-n NAME]
+            delete INDEX/UUID
             \s
-            5. Filter contacts
-            filter [-n NAME] [-p PHONE] [-e EMAIL] [-a ADDRESS] [-t TAG1 TAG2... ]...
+            5. Find recruits
+            find KEYWORD [MORE_KEYWORDS]
             \s
-            6. Undo previous command
+            6. List recruits
+            list [-archive] [-all]
+            \s
+            7. Sort recruits
+            sort [n/ ORDER] [p/ ORDER] [e/ ORDER] [a/ ORDER]
+            \s
+            8. Archive recruit
+            archive INDEX
+            \s
+            9. Unarchive recruit
+            unarchive INDEX
+            \s
+            10. Undo command
             undo
+            \s
+            11. Redo command
+            undo
+            \s
+            12. Export recruits
+            export [FILEPATH]
+            \s
+            13. Clear all recruits
+            clear
+            \s
            """;
     public static final String HELP_MESSAGE = "Refer to the user guide: "
             + USERGUIDE_URL + "\n\n" + COMMAND_HELP_MESSAGE;

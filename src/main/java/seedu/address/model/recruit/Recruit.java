@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -110,16 +111,16 @@ public class Recruit {
         return this.names;
     }
 
-    public Phone getPhone() {
-        return phones.get(0);
+    public Optional<Phone> getPhone() {
+        return phones.isEmpty() ? Optional.empty() : Optional.of(phones.get(0));
     }
 
     public List<Phone> getPhones() {
         return this.phones;
     }
 
-    public Email getEmail() {
-        return emails.get(0);
+    public Optional<Email> getEmail() {
+        return emails.isEmpty() ? Optional.empty() : Optional.of(emails.get(0));
     }
 
     public List<Email> getEmails() {
@@ -130,8 +131,8 @@ public class Recruit {
         return this.description;
     }
 
-    public Address getAddress() {
-        return addresses.get(0);
+    public Optional<Address> getAddress() {
+        return addresses.isEmpty() ? Optional.empty() : Optional.of(addresses.get(0));
     }
 
     public List<Address> getAddresses() {
