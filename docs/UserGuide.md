@@ -140,9 +140,9 @@ Examples:
 
 ### Listing all recruits : `list`
 
-Shows a list of all unarchived recruits in the address book.
+Shows a list of all unarchived recruits in the address book. (archived recruits are hidden from the list)
 
-You can view [**archived**](#archiving-a-recruit--archive) recruits using the `list` command with flags:
+You can view [**archived**](#archiving-a-recruit--archive) recruits by following one of the command formats below:
 
 **Formats:**
 * `list` — Shows only unarchived (active) recruits (default)

@@ -45,7 +45,7 @@ public class ResultDisplay extends UiPart<Region> {
             totalLines += Math.max(1, wraps);
         }
 
-        double estimatedHeight = (totalLines) * 50 + 20;
+        double estimatedHeight = totalLines * 50 + 20;
         double newHeight = Math.max(estimatedHeight, 30); // extra padding
         resultDisplay.setPrefHeight(newHeight);
     }
