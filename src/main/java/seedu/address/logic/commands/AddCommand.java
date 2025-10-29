@@ -23,10 +23,10 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a recruit to the address book. "
             + "Parameters: "
-            + PREFIX_NAME + "NAME "
-            + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
+            + PREFIX_NAME + "NAME...\n"
+            + "[" + PREFIX_PHONE + "PHONE]...\n"
+            + "[" + PREFIX_EMAIL + "EMAIL]...\n"
+            + "[" + PREFIX_ADDRESS + "ADDRESS]...\n"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
@@ -38,6 +38,8 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New recruit added:\n%1$s";
     public static final String MESSAGE_DUPLICATE_RECRUIT = "This recruit already exists in the address book";
+    public static final String MESSAGE_NO_NAME = "At least one name is required to add a recruit.\n"
+            + MESSAGE_USAGE;
 
     private final Recruit toAdd;
 

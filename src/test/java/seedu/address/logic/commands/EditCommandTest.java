@@ -107,7 +107,7 @@ public class EditCommandTest {
         descriptor = new EditRecruitDescriptorBuilder()
                 .withOperation(EditRecruitOperation.APPEND)
                 .withNames(VALID_NAME_AMY)
-                .withPhones(ALICE.getPhone().value, VALID_PHONE_AMY).build();
+                .withPhones(ALICE.getPhone().get().value, VALID_PHONE_AMY).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
 
@@ -116,7 +116,7 @@ public class EditCommandTest {
                 .withOperation(EditRecruitOperation.APPEND)
                 .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
                 .withPhones(VALID_PHONE_AMY)
-                .withEmails(ALICE.getEmail().value, VALID_EMAIL_BOB).build();
+                .withEmails(ALICE.getEmail().get().value, VALID_EMAIL_BOB).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
 
@@ -126,7 +126,7 @@ public class EditCommandTest {
                 .withNames(VALID_NAME_AMY, VALID_NAME_BOB)
                 .withPhones(VALID_PHONE_AMY)
                 .withEmails(VALID_EMAIL_BOB)
-                .withAddresses(VALID_ADDRESS_BOB, ALICE.getAddress().value).build();
+                .withAddresses(VALID_ADDRESS_BOB, ALICE.getAddress().get().value).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_ATTRIBUTE);
 
@@ -148,7 +148,7 @@ public class EditCommandTest {
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
                 .withOperation(EditRecruitOperation.REMOVE)
                 .withNames(VALID_NAME_BOB)
-                .withPhones(ALICE.getPhone().value).build();
+                .withPhones(ALICE.getPhone().get().value).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
 
@@ -171,8 +171,8 @@ public class EditCommandTest {
         // non-existent address
         descriptor = new EditRecruitDescriptorBuilder()
                 .withOperation(EditRecruitOperation.REMOVE)
-                .withPhones(ALICE.getPhone().value)
-                .withEmails(ALICE.getEmail().value)
+                .withPhones(ALICE.getPhone().get().value)
+                .withEmails(ALICE.getEmail().get().value)
                 .withAddresses(VALID_ADDRESS_BOB).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
@@ -180,8 +180,8 @@ public class EditCommandTest {
         // non-existent tags
         descriptor = new EditRecruitDescriptorBuilder()
                 .withOperation(EditRecruitOperation.REMOVE)
-                .withPhones(ALICE.getPhone().value)
-                .withEmails(ALICE.getEmail().value)
+                .withPhones(ALICE.getPhone().get().value)
+                .withEmails(ALICE.getEmail().get().value)
                 .withTags(VALID_TAG_CASHIER).build();
         editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_MISSING_ATTRIBUTE);
@@ -209,9 +209,9 @@ public class EditCommandTest {
         EditRecruitDescriptor descriptor = new EditRecruitDescriptorBuilder()
                 .withOperation(EditRecruitOperation.REMOVE)
                 .withNames(ALICE.getName().fullName, VALID_NAME_BOB)
-                .withPhones(ALICE.getPhone().value, VALID_PHONE_BOB)
-                .withEmails(ALICE.getEmail().value, VALID_EMAIL_BOB)
-                .withAddresses(ALICE.getAddress().value, VALID_ADDRESS_BOB)
+                .withPhones(ALICE.getPhone().get().value, VALID_PHONE_BOB)
+                .withEmails(ALICE.getEmail().get().value, VALID_EMAIL_BOB)
+                .withAddresses(ALICE.getAddress().get().value, VALID_ADDRESS_BOB)
                 .withTags("friends", VALID_TAG_HUSBAND)
                 .build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_RECRUIT, descriptor);

@@ -32,9 +32,9 @@ public class RecruitUtil {
     public static String getRecruitDetails(Recruit recruit) {
         StringBuilder sb = new StringBuilder();
         sb.append(PREFIX_NAME + recruit.getName().fullName + " ");
-        sb.append(PREFIX_PHONE + recruit.getPhone().value + " ");
-        sb.append(PREFIX_EMAIL + recruit.getEmail().value + " ");
-        sb.append(PREFIX_ADDRESS + recruit.getAddress().value + " ");
+        recruit.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE + phone.value + " "));
+        recruit.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL + email.value + " "));
+        recruit.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS + address.value + " "));
         sb.append(PREFIX_DESCRIPTION + recruit.getDescription().value + " ");
         recruit.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")

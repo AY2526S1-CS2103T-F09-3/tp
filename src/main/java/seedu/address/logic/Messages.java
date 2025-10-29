@@ -37,17 +37,25 @@ public class Messages {
      */
     public static String format(Recruit recruit) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(recruit.getName())
-                .append("\n Phone: ")
-                .append(recruit.getPhone())
-                .append("\n Email: ")
-                .append(recruit.getEmail())
-                .append("\n Address: ")
-                .append(recruit.getAddress())
-                .append("\n Description: ")
-                .append(recruit.getDescription())
-                .append("\n Tags: ");
-        recruit.getTags().forEach(builder::append);
+        builder.append(recruit.getName());
+
+        recruit.getPhones().stream().findFirst().ifPresent(phone ->
+                builder.append("\n Phone: ").append(phone)
+        );
+
+        recruit.getEmails().stream().findFirst().ifPresent(email ->
+                builder.append("\n Email: ").append(email)
+        );
+
+        recruit.getAddresses().stream().findFirst().ifPresent(address ->
+                builder.append("\n Address: ").append(address)
+        );
+
+        builder.append("\n Description: ").append(recruit.getDescription());
+
+        builder.append("\n Tags: ");
+        recruit.getTags().forEach(tag -> builder.append(tag).append(" "));
+
         return builder.toString();
     }
 

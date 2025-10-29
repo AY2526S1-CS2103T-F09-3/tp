@@ -37,18 +37,19 @@ public class AddCommandParser implements Parser<AddCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
                        PREFIX_DESCRIPTION, PREFIX_TAG);
-
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL)
-                || !argMultimap.getPreamble().isEmpty()) {
+        if (!argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
-
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_NO_NAME));
+        }
         List<Name> names = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_NAME), ParserUtil::parseName);
         List<Phone> phones = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_PHONE), ParserUtil::parsePhone);
         List<Email> emails = ParserUtil.parseAllValues(argMultimap.getAllValues(PREFIX_EMAIL), ParserUtil::parseEmail);
         List<Address> addresses = ParserUtil.parseAllValues(
                 argMultimap.getAllValues(PREFIX_ADDRESS), ParserUtil::parseAddress);
-        Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION).orElse("-"));
+        Description description = ParserUtil.parseDescription(argMultimap.getValue(PREFIX_DESCRIPTION)
+                .orElse("-"));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         Recruit recruit = new Recruit(names, phones, emails, addresses, description, tagList, false);
         return new AddCommand(recruit);

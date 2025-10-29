@@ -39,9 +39,9 @@ public class RecruitTest {
                 new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), false);
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());
-        assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
-        assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail());
-        assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress());
+        assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone().get());
+        assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail().get());
+        assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress().get());
         assertEquals(new Description(VALID_DESCRIPTION_AMY), r.getDescription());
         assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
 
@@ -52,9 +52,9 @@ public class RecruitTest {
                 new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), false);
 
         assertEquals(new Name(VALID_NAME_AMY), r.getName());
-        assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone());
-        assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail());
-        assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress());
+        assertEquals(new Phone(VALID_PHONE_AMY), r.getPhone().get());
+        assertEquals(new Email(VALID_EMAIL_AMY), r.getEmail().get());
+        assertEquals(new Address(VALID_ADDRESS_AMY), r.getAddress().get());
         assertEquals(new HashSet<>(List.of(new Tag(VALID_TAG_FRIEND))), r.getTags());
     }
 

@@ -18,6 +18,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DismissCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditRecruitDescriptor;
 import seedu.address.logic.commands.ExitCommand;
@@ -146,5 +147,10 @@ public class AddressBookParserTest {
         ViewCommand command = (ViewCommand) parser.parseCommand(
                 ViewCommand.COMMAND_WORD + " " + TypicalIDs.ID_FIRST_RECRUIT);
         assertEquals(new ViewCommand(TypicalIDs.ID_FIRST_RECRUIT), command);
+    }
+
+    @Test
+    public void parseCommand_dismiss() throws Exception {
+        assertTrue(parser.parseCommand(DismissCommand.COMMAND_WORD) instanceof DismissCommand);
     }
 }

@@ -74,23 +74,23 @@ public class AddCommandParserTest {
         assertParseSuccess(parser, validExpectedRecruitString + NAME_DESC_AMY, new AddCommand(recruit));
 
         // multiple phones
-        recruit = new RecruitBuilder(BOB).withAdditionalPhones(AMY.getPhone().value).build();
+        recruit = new RecruitBuilder(BOB).withAdditionalPhones(AMY.getPhone().get().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + PHONE_DESC_AMY, new AddCommand(recruit));
 
         // multiple emails
-        recruit = new RecruitBuilder(BOB).withAdditionalEmails(AMY.getEmail().value).build();
+        recruit = new RecruitBuilder(BOB).withAdditionalEmails(AMY.getEmail().get().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + EMAIL_DESC_AMY, new AddCommand(recruit));
 
         // multiple addresses
-        recruit = new RecruitBuilder(BOB).withAdditionalAddresses(AMY.getAddress().value).build();
+        recruit = new RecruitBuilder(BOB).withAdditionalAddresses(AMY.getAddress().get().value).build();
         assertParseSuccess(parser, validExpectedRecruitString + ADDRESS_DESC_AMY, new AddCommand(recruit));
 
         // multiple fields repeated
         recruit = new RecruitBuilder(BOB)
                         .withAdditionalNames(AMY.getName().fullName)
-                        .withAdditionalPhones(AMY.getPhone().value)
-                        .withAdditionalEmails(AMY.getEmail().value)
-                        .withAdditionalAddresses(AMY.getAddress().value).build();
+                        .withAdditionalPhones(AMY.getPhone().get().value)
+                        .withAdditionalEmails(AMY.getEmail().get().value)
+                        .withAdditionalAddresses(AMY.getAddress().get().value).build();
         assertParseSuccess(parser,
                 validExpectedRecruitString + PHONE_DESC_AMY + EMAIL_DESC_AMY + NAME_DESC_AMY + ADDRESS_DESC_AMY,
                 new AddCommand(recruit));
@@ -148,18 +148,6 @@ public class AddCommandParserTest {
 
         // missing name prefix
         assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                expectedMessage);
-
-        // missing phone prefix
-        assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                expectedMessage);
-
-        // missing email prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB + ADDRESS_DESC_BOB,
-                expectedMessage);
-
-        // missing address prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_BOB,
                 expectedMessage);
 
         // all prefixes missing

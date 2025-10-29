@@ -110,11 +110,14 @@ public class SortCommand extends Command {
             if (prefix.equals(SORT_PREFIX_NAME)) {
                 comparator = Comparator.comparing(recruit -> recruit.getName().fullName.toLowerCase());
             } else if (prefix.equals(SORT_PREFIX_PHONE)) {
-                comparator = Comparator.comparing(recruit -> recruit.getPhone().value);
+                comparator = Comparator.comparing(recruit -> recruit.getPhone().isEmpty() ? ""
+                        : recruit.getPhone().get().value.toLowerCase());
             } else if (prefix.equals(SORT_PREFIX_EMAIL)) {
-                comparator = Comparator.comparing(recruit -> recruit.getEmail().value.toLowerCase());
+                comparator = Comparator.comparing(recruit -> recruit.getEmail().isEmpty() ? ""
+                        : recruit.getEmail().get().value.toLowerCase());
             } else if (prefix.equals(SORT_PREFIX_ADDRESS)) {
-                comparator = Comparator.comparing(recruit -> recruit.getAddress().value.toLowerCase());
+                comparator = Comparator.comparing(recruit -> recruit.getAddress().isEmpty() ? ""
+                        : recruit.getAddress().get().value.toLowerCase());
             } else {
                 throw new IllegalArgumentException("Unknown sort prefix: " + prefix);
             }
