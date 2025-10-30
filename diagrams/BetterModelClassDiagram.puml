@@ -14,9 +14,10 @@ UniqueRecruitList -right-> Recruit
 
 Recruit -up-> "*" Tag
 
+Recruit *--> "1" UUID
 Recruit *--> "1...*" Name
 Recruit *--> "*" Phone
 Recruit *--> "*" Email
 Recruit *--> "*" Address
-Recruit *--> "*" Description
+Recruit *--> "1" Description
 @enduml
