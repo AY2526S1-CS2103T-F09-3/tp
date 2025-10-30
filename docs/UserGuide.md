@@ -510,6 +510,26 @@ TalentNexus data is saved automatically as a JSON file `[JAR file location]/data
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **If you are running a Linux-based operating system such as Ubuntu and Linux Mint**, you may experience issues when using an Input Method Editor (IME) to type in non-latin characters. For example, the window showing the candidate kanji characters when typing in Japanese may not show up. Unfortunately, this is a limitation of the technology we used to build this application. If you work with data that require IME input, you may type your command in other text editing program and copy-paste it into the command box.
+
+### Issues on Linux-based operating system
+
+If you are running a Linux-based operating system such as Ubuntu and Linux Mint, you may experience some of the issues below:
+1. **When using an Input Method Editor (IME) to type in non-latin characters**, the small window showing the candidate non-latin characters may not show up. For example, when typing in Japanese, the small window showing which kanji characters you want to choose may not appear. Unfortunately, this is a limitation of JavaFX, the technology we use to build this application. If you work with data that require IME input, you may type your command in other text editing program and copy-paste it into the command box.
+2. **Application icon may be missing on the desktop dock.** While this does not impact the usability of the application, there is a workaround that may solve the problem. The following steps assume you have the command-line text editor "Vim" installed on your computer.
+    * Type and execute the command `sudo vi ~/.local/share/applications/TalentNexus.desktop` in your terminal.
+    * Paste the following desktop entry configuration by pressing `Ctrl` + `Shift` + `V`, replacing `<ABSOLUTE PATH TO JAR FILE>` and `<ABSOLUTE PATH TO ICON FILE>` with the corresponding path where you save these files.
+      ```
+      [Desktop Entry]
+      Type=Application
+      Name=TalentNexus
+      Exec=java -jar <ABSOLUTE PATH TO JAR FILE>
+      Icon=<ABSOLUTE PATH TO ICON FILE>
+      Terminal=false
+      Categories=Utility;Application;
+      Comment=Portable JavaFX Application
+      StartupWMClass=seedu.address.MainApp
+      ```
+    * Save the file by pressing the 'escape' key, typing `:q`, and then pressing the 'enter' key.
+    * Restart your computer.
 
 --------------------------------------------------------------------------------------------------------------------
