@@ -471,7 +471,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 **What is archiving?**
 * Archived recruits are hidden from the default [**`list`**](#listing-all-recruits--list) view but remain in the system
 * Use this feature to organize inactive or past recruits without deleting their data
-* View archived recruits using `list -archived` (which will list out all the archived recruits only) or `list -all` (which will list out all recruits - archived & unarchived)
+* Archived recruits are still viewable using `list -archived` (which will list out all the archived recruits only) or `list -all` (which will list out all recruits - archived & unarchived)
 
 **Examples:**
 * `list` followed by `archive 2` archives the 2nd recruit in the address book
