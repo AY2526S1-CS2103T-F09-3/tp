@@ -104,8 +104,10 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     private static String[] getKeywords(ArgumentMultimap argumentMultimap, Prefix prefix) {
         if (argumentMultimap.getValue(prefix).isPresent()) {
-            return processValue(argumentMultimap.getValue(prefix)
-                    .orElse(""));
+            return argumentMultimap.getAllValues(prefix)
+                    .stream()
+                    .flatMap((String value) -> Arrays.stream(processValue(value)))
+                    .toArray(String[]::new);
         } else {
             return new String[0];
         }
