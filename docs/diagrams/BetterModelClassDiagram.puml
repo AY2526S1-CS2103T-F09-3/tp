@@ -19,5 +19,5 @@ Recruit *--> "1...*" Name
 Recruit *--> "*" Phone
 Recruit *--> "*" Email
 Recruit *--> "*" Address
-Recruit *--> "1" Description
+Recruit *--> "0..1" Description
 @enduml

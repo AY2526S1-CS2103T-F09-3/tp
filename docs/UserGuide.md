@@ -276,6 +276,7 @@ Format: `view INDEX|UUID`
 * Displays the full details of the recruit at the specified `INDEX` or `UUID` in the recruit list.
 * The index refers to the index number shown in the displayed recruit list.
 * The index **must be a positive integer** 1, 2, 3, …​
+* Fields that allow multiple values as input will be displayed as an array (e.g. [Anne, Lin Qiaopeng])
 
 Examples:
 * `list` followed by `view 2` displays the 2nd recruit in the address book.
@@ -293,6 +294,8 @@ Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
+* A whitespace needs to be added between each individual prefix
+* If the value provided has any special characters, we recommend using double quotation marks around them `"/" "-"` to prevent them from being misinterpreted
 * Existing values will be updated to the input values.
 * Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
 * All of the recruit’s tags can be removed by typing t/ without specifying any tags afterward.
