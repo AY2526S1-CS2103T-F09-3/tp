@@ -35,7 +35,7 @@ public class FieldContainsKeywordsPredicate implements Predicate<Recruit> {
     public boolean test(Recruit recruit) {
         if (prefix.equals(SEARCH_PREFIX_ID)) {
             return keywords.stream()
-                    .anyMatch(keyword -> recruit.getID().equals(UUID.fromString(keyword)));
+                    .anyMatch(keyword -> recruit.getID().toString().toLowerCase().contains(keyword));
         } else if (prefix.equals(SEARCH_PREFIX_NAME)) {
             return keywords.stream()
                     .anyMatch(keyword -> recruit.getNames().stream()
