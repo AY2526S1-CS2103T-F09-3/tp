@@ -483,6 +483,29 @@ Use case ends.
   Use case resumes from step 3.
   <br>
 
+#### UC09 - Archive/Unarchive a Recruit
+
+**MSS**
+
+1.  User requests to archive/unarchive a recruit by its UUID or its index in the list order.
+2.  System archives recruit and hides them from the main list (`list`)
+
+Use case ends.
+
+
+**Extensions**
+
+* 1a. The Recruit with the provided UUID/Index is already archived
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+
+* 1b. TalentNexus detects that an invalid UUID/Index is given.
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+  <br>
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.

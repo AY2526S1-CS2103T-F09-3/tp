@@ -8,7 +8,6 @@ import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.SEARCH_PREFIX_TAG;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
