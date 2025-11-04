@@ -100,7 +100,7 @@ public class AddressBookParserTest {
     public void parseCommand_find() throws Exception {
         List<String> keywords = Arrays.asList("foo", "bar", "baz");
         FindCommand command = (FindCommand) parser.parseCommand(
-                FindCommand.COMMAND_WORD + " -n " + keywords.stream().collect(Collectors.joining("|")));
+                FindCommand.COMMAND_WORD + " n/ " + keywords.stream().collect(Collectors.joining(" n/")));
         assertEquals(new FindCommand(new NestedOrPredicate(
                         new FieldContainsKeywordsPredicate(keywords, SEARCH_PREFIX_NAME))), command);
     }

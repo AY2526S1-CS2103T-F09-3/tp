@@ -48,8 +48,10 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         String[] idKeywords = getKeywords(argMultimap, SEARCH_PREFIX_ID);
         // If both flag and preamble provided, the keyword after flag will override the preamble
+        String preamble = argMultimap.getPreamble().trim();
         String[] nameKeywords = getKeywords(argMultimap, SEARCH_PREFIX_NAME).length > 0
-                ? getKeywords(argMultimap, SEARCH_PREFIX_NAME) : processValue(argMultimap.getPreamble());
+                ? getKeywords(argMultimap, SEARCH_PREFIX_NAME)
+                : preamble.isEmpty() ? new String[]{} : new String[]{argMultimap.getPreamble().trim()};
         String[] phoneKeywords = getKeywords(argMultimap, SEARCH_PREFIX_PHONE);
         String[] emailKeywords = getKeywords(argMultimap, SEARCH_PREFIX_EMAIL);
         String[] addressKeywords = getKeywords(argMultimap, SEARCH_PREFIX_ADDRESS);
@@ -104,22 +106,12 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     private static String[] getKeywords(ArgumentMultimap argumentMultimap, Prefix prefix) {
         if (argumentMultimap.getValue(prefix).isPresent()) {
-            return processValue(argumentMultimap.getValue(prefix)
-                    .orElse(""));
+            return argumentMultimap.getAllValues(prefix).stream()
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .toArray(String[]::new);
         } else {
             return new String[0];
         }
-    }
-
-    /**
-     * Processes string of keywords separated by | into a String array for search
-     * @param keywords - String of keywords for a specific search attribute (e.g. name)
-     * @return - String array of keywords split by delimiter ("|")
-     */
-    private static String[] processValue(String keywords) {
-        return Arrays.stream(keywords.trim().split("(?<!\\\\)\\|"))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .toArray(String[]::new);
     }
 }

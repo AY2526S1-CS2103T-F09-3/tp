@@ -34,7 +34,7 @@ public class UniqueRecruitList implements Iterable<Recruit> {
      */
     public boolean contains(Recruit toCheck) {
         requireNonNull(toCheck);
-        return internalList.stream().anyMatch(toCheck::equals);
+        return internalList.stream().anyMatch(toCheck::isSameRecruit);
     }
 
     /**

@@ -256,10 +256,6 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 _{more aspects and alternatives to be added}_
 
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -301,19 +297,19 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | recruiter      | find a potential recruit's contact by their (partial) names | quickly view contact details of a recruit with a particular name       |
 | `* * *`  | clumsy recruiter | I can undo an accidental delete and edit   |  recover the contact details of potential hire due to accidental edit and deletion     |
 | `* * *`  | new user | know what functions are available  | easily know what to type to achieve my desired outcome    |
-| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
-| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
-| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
-| `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
-| `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
 | `* *` | old-fashioned recruiter       | type commands to use this app      | improve my efficiency of using this address book by 100.5%          |
 | `* *` | recruiter                        | add a skill/interest tag        | filter by talents/skills when searching                        |
 | `* *` | recruiter who can only speak 1 language | view candidate's data in multiple languages | effectively hire talent from multiple countries / nationalities                     |
 | `* *` | recruiter      | archive old applications               | talent pool remains relevant and up-to-date                          |
 | `* *` | recruiter for multinational company | I can add names of a potential hire in multiple languages | colleagues in different locations can use localised names |
 | `* *` | data-centric recruiter            | import and export candidate's data to external files (e.g., Excel) | share among colleagues                           |
-| `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
+| `* *` | recruiter           | filtering feature for recruits                 | filter by parameters of interest (e.g., skills, location, role) |
+| `* *` | impatient recruiter | save frequently used queries                   | quickly access my frequently accessed commands                  |
+| `* *` | tidy recruiter      | group recruits together                         | easily manage different groups of potential recruits           |
 | `* *` | recruiter         | sort contacts by multiple fields (name, phone, email, address) in ascending or descending order |  organize and find contacts efficiently based on different criteria |
+| `*` | paranoid recruiter  | create backups of my contact list              | easily recover data in case of potential data corruption       |
+| `*` | recruiter | automatically cluster users based on similarity  | easily filter and choose recruits based on the specific role that I am trying to fill |
+| `*` | busy recruiter                    | automatically parse users' resumes                 | easily extract user details for viewing     |
 
 *{More to be added}*
 
@@ -361,7 +357,7 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that an invalid UUID is given.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -384,7 +380,7 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that an invalid search parameter.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -407,12 +403,12 @@ Use case ends.
   Use case ends.
 
 * 1b. TalentNexus detects that the modification removes all contact parameters.
-    * 1a1. TalentNexus shows an error message.
+    * 1b1. TalentNexus shows an error message.
 
   Use case ends.
 
 * 1c. TalentNexus detects illegal parameter combinations.
-    * 1a1. TalentNexus shows an error message.
+    * 1c1. TalentNexus shows an error message.
 
   Use case ends.
   <br>
@@ -483,6 +479,29 @@ Use case ends.
   Use case resumes from step 3.
   <br>
 
+#### UC09 - Archive/Unarchive a Recruit
+
+**MSS**
+
+1.  User requests to archive/unarchive a recruit by its UUID or its index in the list order.
+2.  System archives recruit and hides them from the main list (`list`)
+
+Use case ends.
+
+
+**Extensions**
+
+* 1a. The Recruit with the provided UUID/Index is already archived
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+
+* 1b. TalentNexus detects that an invalid UUID/Index is given.
+    * 1a1. TalentNexus shows an error message.
+
+  Use case ends.
+  <br>
+
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -538,14 +557,25 @@ testers are expected to do more *exploratory* testing.
 1. Deleting a recruit while all recruits are being shown
 
     1. Prerequisites: List all recruits using the `list` command. There exists multiple recruits in the list.
+       ![list result](images/dg_appendix_delete_1.png)
 
-    1. Test case: `delete 1`<br>
+    2. Test case: `delete 0`<br>
+      Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+      ![list result](images/dg_appendix_delete_2.png)
+
+    3. Test case: `delete 1`<br>
        Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       ![list result](images/dg_appendix_delete_3.png)
 
-    1. Test case: `delete 0`<br>
+    4. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e29`<br>
        Expected: No recruit is deleted. Error details shown in the status message. Status bar remains the same.
+       ![list result](images/dg_appendix_delete_3.png)
 
-    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+    5. Test case: `delete 10b7f0db-8804-401e-b56d-7a0b4c658e28`<br>
+       Expected: Contact with id **10b7f0db-8804-401e-b56d-7a0b4c658e28** is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+       ![list result](images/dg_appendix_delete_3.png)
+
+    6. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
 1. _{ more test cases …​ }_
@@ -566,6 +596,66 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `export C:\data\recruits.csv`<br>
        Expected: A file *recruits.csv* created at *C:\data\recruits.csv*.
 
+
+### Sorting recruits
+
+1. Sorting recruits by a single field
+
+    1. Prerequisites: List all recruits using the `list` command. Multiple recruits exist in the list with varying names, phones, emails, and addresses.
+
+    1. Test case: `sort`<br>
+       Expected: All recruits are sorted by name in ascending order (A-Z). Success message shows "Recruits sorted by: name (ascending)".
+
+    1. Test case: `sort -n asc`<br>
+       Expected: All recruits are sorted by name in ascending order. Same result as `sort`.
+
+    1. Test case: `sort -n`<br>
+       Expected: All recruits are sorted by name in ascending order. When sort order is omitted, it defaults to ascending. Same result as `sort -n asc`.
+
+    1. Test case: `sort -n desc`<br>
+       Expected: All recruits are sorted by name in descending order (Z-A). Success message shows "Recruits sorted by: name (descending)".
+
+    1. Test case: `sort -p asc`<br>
+       Expected: All recruits are sorted by phone number in ascending order. Recruits with missing phone numbers appear first.
+
+    1. Test case: `sort -e desc`<br>
+       Expected: All recruits are sorted by email in descending order.
+
+    1. Test case: `sort -a asc`<br>
+       Expected: All recruits are sorted by address in ascending order.
+
+2. Sorting recruits by multiple fields
+
+    1. Prerequisites: Multiple recruits exist with some sharing the same name but different phone numbers.
+
+    1. Test case: `sort -n asc -p desc`<br>
+       Expected: Recruits are first sorted by name in ascending order. For recruits with identical names, they are further sorted by phone number in descending order. Success message shows "Recruits sorted by: name (ascending), phone (descending)".
+
+    1. Test case: `sort -n -p desc`<br>
+       Expected: Same as above. When sort order is omitted for `-n`, it defaults to ascending.
+
+    1. Test case: `sort -n -p -e`<br>
+       Expected: Recruits are sorted with three levels of priority: first by name, then by phone, then by email (all ascending, since order is omitted for all fields).
+
+3. Handling identical values during sorting
+
+    1. Prerequisites: Create multiple recruits with the exact same name (e.g., "John Doe").
+
+    1. Test case: `sort -n asc`<br>
+       Expected: When all names are identical, the relative order of recruits is preserved from their state before sorting (stable sort behavior). The order is deterministic.
+
+    1. Note: If recruits have identical values for the primary sort field, their order is maintained unless a secondary sort criterion is specified.
+
+4. Invalid sort commands
+
+    1. Test case: `sort -x asc`<br>
+       Expected: Error message indicating invalid command format. No sorting occurs.
+
+    1. Test case: `sort -n invalid`<br>
+       Expected: Error message indicating invalid command format. No sorting occurs.
+
+    1. Test case: `sort -n -n asc`<br>
+       Expected: Error message indicating duplicate prefix. No sorting occurs.
 
 ### Saving data
 

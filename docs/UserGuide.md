@@ -346,12 +346,11 @@ Undoes operations that were done recently.
 Format: `undo​`
 
 Example usage scenarios:
-- An additional Japanese name is added to recruit John
 - Recruit Li is deleted
-- All recruits are accidentally cleared
-- The undo command is typed to restore all the recruits
+- The user accidentally clears all recruits
+- The undo command is executed to restore all the recruits
 - The user realised that recruit Lee was meant to be deleted instead of Li
-- The undo command is typed again to undo deletion of recruit Li
+- The undo command is executed again to undo deletion of recruit Li
 
 <br>
 
@@ -365,9 +364,10 @@ Format: `redo`
 
 Examples usage scenario:
 - Recruit Li is deleted
-- The user realised that recruit Li's email is still needed.
-- The undo command is typed to undo the deletion of recruit Li and check the email
-- The redo command is typed to redo the deletion of recruit Li
+- The user adds another recruit
+- The user wants to check the email of the previously deleted recruit Li.
+- The undo command is executed **2 times** to undo the deletion of recruit Li and check the email
+- The redo command is executed **2 times** to redo the deletion of recruit Li
 
 <br>
 
@@ -375,56 +375,56 @@ Examples usage scenario:
 
 Finds all recruits whose details match any of the given keywords.
 
-Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`
+Format: `find NAME [id/KEYWORDS] [n/KEYWORDS] [p/KEYWORDS] [e/KEYWORDS] [a/KEYWORDS] [t/KEYWORDS]`
 
 * The `NAME` keyword(s) take precedence
 
-* The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
-    * `-id` — Search by UUID
-    * `-n` — Search by Name
-    * `-p` — Search by Phone
-    * `-e` — Search by Email
-    * `-a` — Search by Address
-    * `-t` — Search by Tag
+* The flag `/` preceding `KEYWORDS` specifies the field(s) to search under:
+    * `id/` — Search by UUID
+    * `n/` — Search by Name
+    * `p/` — Search by Phone
+    * `e/` — Search by Email
+    * `a/` — Search by Address
+    * `t/` — Search by Tag
 
 * The search is **case-insensitive**
 
-* Multiple keywords can be separated by the pipe symbol (`|`). Note that the use of the pipe symbol here differs from what is explained at the start of the "Command Format" section (see below).
+* For each attribute (e.g. phone, email), multiple search keywords can be specified by chaining repeated flags (`-n alice -n bob`).
 
 * If no flag is provided, the app searches using `NAME` keywords by default
 
-* If multiple search criteria are provided, the result will include all recruits who satisfy them
+* If multiple search criteria are provided, the result will include all recruits who satisfy them. (See below for examples)
 
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
-* `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
-* `find -a Clementi|Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
-* `find -t volunteer|intern|cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
-* `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
-* `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
+* `find n/alice n/bob n/charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
+* `find a/Clementi a/Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
+* `find t/volunteer t/intern t/cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
+* `find p/98765432 p/91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
+* `find e/gmail e/hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
 **Chaining multiple flags:**
-* `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
+* `find n/alice n/bob a/Clementi a/Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
-* `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
-* `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
+* `find n/alice p/98765432 p/91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
+* `find t/intern t/fulltime a/Bukit a/Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
   “Bukit” or “Pasir”
 
 **Examples:**
 * `find alice` — Finds all recruits with “alice” in their name
-* `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
-* `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
-* `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
-* `find -id 123|456|789` — Finds recruits whose UUID contains “123”, “456”, or “789”
+* `find n/alice n/bob n/charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
+* `find a/Clementi a/Tampines p/98765432 p/91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
+* `find t/volunteer t/member e/gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
+* `find id/123 id/456 id/789` — Finds recruits whose UUID contains “123”, “456”, or “789”
 
-<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
+<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the repeated flags `-n .. -n..`  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
 <br>
 
-![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
-**Figure 3:** Searching for recruits with "Bukit Batok" in their address
+![result for 'find Benjamin a/Bukit Batok'](images/findBenjaminResult.png)
+**Figure 3:** Searching for recruits whose name contains "Benjamin" and "Bukit Batok" in their address
 
-![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+![result for 'find n/Johnathon n/Ben'](images/findJohnathonBenResult.png)
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
 
 <br>
@@ -442,6 +442,7 @@ Format: `sort [PARAMETER ORDER]...`
 * If only `asc` or `desc` is provided (without field prefixes), recruits will be sorted by name in that order.
 * For any parameter, if the order is not specified, recruits will be sorted in ascending order by default.
 * The sort is case-insensitive for text fields (name, email, address).
+* **Note:** Sorting by name uses ASCII ordering. Names starting with numbers (e.g., "3rd Recruit") will appear before names starting with letters (e.g., "Alice") when sorted in ascending order.
 
 **Shorthand formats:**
 * `sort` - Sorts by name in ascending order
@@ -476,7 +477,7 @@ Archives a recruit to hide them from the default list view while preserving thei
 **What is archiving?**
 * Archived recruits are hidden from the default [**`list`**](#listing-all-recruits--list) view but remain in the system
 * Use this feature to organize inactive or past recruits without deleting their data
-* View archived recruits using `list -archived` or `list -all`
+* Archived recruits are still viewable using `list -archived` (which will list out all the archived recruits only) or `list -all` (which will list out all recruits - archived & unarchived)
 
 **Examples:**
 * `list` followed by `archive 2` archives the 2nd recruit in the address book
@@ -590,78 +591,82 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of the previous AddressBook home folder.
+**A**: First, install TalentNexus on the new computer. Then, locate the `TalentNexusData.json` file in the `/data` folder of your current installation and copy it over to the same location on the new machine, replacing the existing file.
+---
+
+**Q:** Can I use TalentNexus without an internet connection?  
+**A:** Yes. TalentNexus is a fully offline desktop application. No internet connection is required to use any of its features.
 
 ---
 
-**Q:** Can I use TalentNexus without an internet connection?
-**A:** Yes. TalentNexus is a fully offline desktop application — no internet connection is required for any of its features.
-
----
-
-**Q:** What happens if I accidentally delete a recruit?
+**Q:** What happens if I accidentally delete a recruit?  
 **A:** Deleted recruits can be restored immediately using the `undo` command (`undo`), as long as the application has not been closed since the deletion.
 
 ---
 
-**Q:** How do I back up my data?
+**Q:** How do I back up my data?  
 **A:** Copy the `TalentNexusData.json` file located in the `/data` folder (in the same directory as the `.jar` file). Store this backup in a safe place (cloud storage, external drive, etc.).
 
 ---
 
-**Q:** Can I import data from another AddressBook or TalentNexus installation?
+**Q:** Can I import data from another AddressBook or TalentNexus installation?  
 **A:** Yes. Copy the `TalentNexusData.json` file from the other installation into the current `/data` folder, replacing the existing file. **Always back up** the current `TalentNexusData.json` file first.
 
 ---
 
-**Q:** Why are my changes not appearing after restarting the app?
-**A:** This can happen if the app is executed from a different directory or the data file path has changed. Make sure the `TalentNexusData.json` file is in the `/data` folder relative to the `.jar` file being run.
+**Q:** Why are my changes not appearing after restarting the app?  
+**A:** This can happen if the app is executed from a different file directory or the data file has been moved. Make sure the `TalentNexusData.json` file is placed in the `/data` folder.
 
 ---
 
-**Q:** What if I enter invalid recruit data inside the data file?
-**A:** TalentNexus validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits.
+**Q:** What if I enter invalid recruit data inside the data file?  
+**A:** TalentNexus always validates the data file on startup. If the file format is invalid, the app may reset the data file. Always back up the data file before making manual edits to it.
 
 ---
 
-**Q:** How do I view archived recruits?
+**Q:** How do I view archived recruits?  
 **A:** Use `list -archived` to show only archived recruits, or `list -all` to view both archived and active recruits.
 
 ---
 
-**Q:** What should I do if a command doesn’t work?
+**Q:** What should I do if a command doesn’t work?  
 **A:** Check the command syntax against the [**Command summary**](#command-summary) and the relevant command section. Type `help` to view the quick command guide.
 
 ---
 
-**Q:** How do I reset the application to its default state?
+**Q:** How do I reset the application to its default state?  
 **A:** Delete both `preferences.json` and `TalentNexusData.json` files from the ./data folder. On next launch the app will recreate default files and sample data.
 
 ---
 
-**Q:** How do I run TalentNexus with a specific Java version?
+**Q:** How do I run TalentNexus with a specific Java version?  
 **A:** Ensure the desired JDK is installed and added to the computer's environment variables. Then, run the app with that Java version.
 
 ---
 
-**Q:** Where can I find the JSON schema or data format?
+**Q:** Where can I find the JSON schema or data format?  
 **A:** The primary data file is `TalentNexusData.json` and stores recruits as JSON objects with fields such as `name`, `phone`, `email`, `address`, `tags`, `archived`, and `uuid`. To edit the file manually, back it up first and preserve the valid JSON and expected field types (arrays for multiple values like `email`/`phone`/`name`).
 
 ---
 
-**Q:** The Help window opened off-screen or is minimized — what do I do?
+**Q:** The Help window opened off-screen or is minimized — what do I do?  
 **A:** Close the app and delete the `preferences.json` file in the ./data folder to reset window positions. Relaunch the app to restore windows to default locations.
 
 ---
 
-**Q:** Is there a limit to how many operations I can undo?
+**Q:** Is there a limit to how many operations I can undo?  
 **A:** There is a limit of up to 200 consecutive `undo` operations. Note that certain actions (like closing the app) may clear the undo history.
 
 ---
 
-**Q:** Who do I contact for bug reports or feature requests?
+**Q:** Who do I contact for bug reports or feature requests?  
 **A:** Create an issue on the project repository (if using the upstream AddressBook/TalentNexus repo). Include reproducible steps, the `preferences.json` and `TalentNexusData.json` (sanitized if needed), and the Java version used.
 
+---
+
+**Q:** My computer has a different java version installed and the application is not launching as expected?  
+**A:** To switch to Java 17, first ensure it is installed by following the instructions [**here**](#quick-start). After installation, update your system’s **JAVA_HOME** environment variable to the Java 17 installation directory such that the **/bin** folder of Java 17 comes before other Java versions.  
+On Windows, this can be done via System Properties > Environment Variables; on macOS or Linux, update .bashrc, .zshrc, or .profile to export the correct paths. Finally, restart your terminal or IDE and run java -version to confirm Java 17 is now in use.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -669,5 +674,5 @@ Recruit data is saved automatically as a JSON file `[JAR file location]/data/Tal
 1. **When using multiple screens**, if the application is moved to a secondary screen, and then switched to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
 2. **If the the Help Window** is minimised and the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) is run again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 3. **When a Linux-based operating system such as Ubuntu and Linux Mint** is used, issues may be experienced when using an Input Method Editor (IME) to type in non-latin characters. For example, the window showing the candidate kanji characters when typing in Japanese may not show up. Unfortunately, this is a limitation of the technology we used to build this application. Commands requiring IME input can be typed in another text editing program and then copied into the command box.
-
+4. When **certain Unicode characters** such as the rare CJK extension characters are used, the GUI may display one or more square boxes (□) instead of the intended character(s). This is due to the default system font not supporting those characters, and is a limitation of the underlying JavaFX text rendering.
 --------------------------------------------------------------------------------------------------------------------
