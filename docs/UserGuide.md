@@ -370,56 +370,56 @@ Examples usage scenario:
 
 Finds all recruits whose details match any of the given keywords.
 
-Format: `find NAME [-id KEYWORDS] [-n KEYWORDS] [-p KEYWORDS] [-e KEYWORDS] [-a KEYWORDS] [-t KEYWORDS]`
+Format: `find NAME [id/ KEYWORDS] [n/ KEYWORDS] [p/ KEYWORDS] [e/ KEYWORDS] [a/ KEYWORDS] [t/ KEYWORDS]`
 
 * The `NAME` keyword(s) take precedence
 
-* The flag `-` preceding `KEYWORDS` specifies the field(s) to search under:
-    * `-id` — Search by UUID
-    * `-n` — Search by Name
-    * `-p` — Search by Phone
-    * `-e` — Search by Email
-    * `-a` — Search by Address
-    * `-t` — Search by Tag
+* The flag `/` preceding `KEYWORDS` specifies the field(s) to search under:
+    * `id/` — Search by UUID
+    * `n/` — Search by Name
+    * `p/` — Search by Phone
+    * `e/` — Search by Email
+    * `a/` — Search by Address
+    * `t/` — Search by Tag
 
 * The search is **case-insensitive**
 
-* Multiple keywords can be separated by the pipe symbol (`|`). Note that the use of the pipe symbol here differs from what is explained at the start of the "Command Format" section (see below).
+* For each attribute (e.g. phone, email), multiple search keywords can be specified by chaining repeated flags (`-n alice -n bob`).
 
 * If no flag is provided, the app searches using `NAME` keywords by default
 
-* If multiple search criteria are provided, the result will include all recruits who satisfy them
+* If multiple search criteria are provided, the result will include all recruits who satisfy them. (See below for examples)
 
 **Shorthand formats:**
 * `find alice` — Finds recruits whose name contains “alice” (case-insensitive)
-* `find -n alice|bob|charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
-* `find -a Clementi|Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
-* `find -t volunteer|intern|cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
-* `find -p 98765432|91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
-* `find -e gmail|hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
+* `find n/alice n/bob n/charlie` — Finds recruits whose name contains **“alice”**, **“bob”**, or **“charlie”**
+* `find a/Clementi a/Tampines` — Finds recruits whose address contains **“Clementi”** or **“Tampines”**
+* `find t/volunteer t/intern t/cleaner` — Finds recruits tagged as **“volunteer”** or **“intern”** or **"cleaner"**
+* `find p/98765432 p/91234567` — Finds recruits whose phone number contains **“98765432”** or **“91234567”**
+* `find e/gmail e/hotmail` — Finds recruits whose email contains **“gmail”** or **“hotmail”**
 
 **Chaining multiple flags:**
-* `find -n alice|bob -a Clementi|Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
+* `find n/alice n/bob a/Clementi a/Jurong` — Finds recruits whose **name** contains “alice” or “bob”, **and** whose
 * **address** contains “Clementi” or “Jurong”
-* `find -n alice -p 98765432|91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
-* `find -t intern|fulltime -a Bukit|Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
+* `find n/alice p/98765432 p/91234567` — Finds recruits whose **name** contains “alice” and whose **phone** matches either number
+* `find t/intern t/fulltime a/Bukit a/Pasir` — Finds recruits tagged as “intern” or “fulltime”, and whose address contains
   “Bukit” or “Pasir”
 
 **Examples:**
 * `find alice` — Finds all recruits with “alice” in their name
-* `find -n alice|bob|charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
-* `find -a Clementi|Tampines -p 98765432|91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
-* `find -t volunteer|member -e gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
-* `find -id 123|456|789` — Finds recruits whose UUID contains “123”, “456”, or “789”
+* `find n/alice n/bob n/charlie` — Finds recruits whose name matches “alice”, “bob”, or “charlie”
+* `find a/Clementi a/Tampines p/98765432 p/91234567` — Finds recruits with “Clementi” or “Tampines” in their address, and whose phone numbers contain “98765432” or “91234567”
+* `find t/volunteer t/member e/gmail` — Finds recruits tagged as “volunteer” or “member”, and with a Gmail address
+* `find id/123 id/456 id/789` — Finds recruits whose UUID contains “123”, “456”, or “789”
 
-<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the pipe symbol  |  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
+<div style="white-space: pre-wrap; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); border-left: 6px solid #00acc1; padding: 12px 16px; border-radius: 10px; font-family: 'Segoe UI', system-ui, sans-serif; color: #004d40; box-shadow: 0 2px 6px rgba(0,0,0,0.1); "> <strong>Tip:</strong> Use the repeated flags `-n .. -n..`  to combine multiple search keywords, and use multiple flags to search across different fields. </div>
 
 <br>
 
-![result for 'find Benjamin -a Bukit Batok'](images/findBenjaminResult.png)
-**Figure 3:** Searching for recruits with "Bukit Batok" in their address
+![result for 'find Benjamin a/Bukit Batok'](images/findBenjaminResult.png)
+**Figure 3:** Searching for recruits whose name contains "Benjamin" and "Bukit Batok" in their address
 
-![result for 'find Johnathon|Ben'](images/findJohnathonBenResult.png)
+![result for 'find n/Johnathon n/Ben'](images/findJohnathonBenResult.png)
 **Figure 4:** Searching for recruits whose name contains either "Johnathon" or "Ben"
 
 <br>
