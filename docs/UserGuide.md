@@ -183,6 +183,9 @@ Action        | Format, Examples
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
+* A whitespace needs to be added between each individual prefix/flag.<br>
+  e.g. `n/NAME t/TAG...`
+
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
@@ -294,8 +297,7 @@ Format: `edit INDEX|UUID OPERATION [n/NAME]... [p/PHONE]... [e/EMAIL]... [a/ADDR
 * Performs the specified `OPERATION`, which can be append, overwrite, or remove to the specified attributes. If `OPERATION` is missing, the command is implicitly treated as an **overwrite** command.
 * The index refers to the index number shown in the displayed recruit list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
-* A whitespace needs to be added between each individual prefix
-* If the value provided has any special characters, we recommend using double quotation marks around them `"/" "-"` to prevent them from being misinterpreted
+* If the value provided has any special characters, you **must use double quotation marks** around them `"/" "-"` to prevent the special characters from being misinterpreted
 * Existing values will be updated to the input values.
 * Recruit’s tags can be removed by typing `t/` without specifying any tags after it.
 * All of the recruit’s tags can be removed by typing t/ without specifying any tags afterward.
