@@ -370,7 +370,7 @@ Examples usage scenario:
 
 Finds all recruits whose details match any of the given keywords.
 
-Format: `find NAME [id/ KEYWORDS] [n/ KEYWORDS] [p/ KEYWORDS] [e/ KEYWORDS] [a/ KEYWORDS] [t/ KEYWORDS]`
+Format: `find NAME [id/KEYWORDS] [n/KEYWORDS] [p/KEYWORDS] [e/KEYWORDS] [a/KEYWORDS] [t/KEYWORDS]`
 
 * The `NAME` keyword(s) take precedence
 
