@@ -50,8 +50,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         // If both flag and preamble provided, the keyword after flag will override the preamble
         String preamble = argMultimap.getPreamble().trim();
         String[] nameKeywords = getKeywords(argMultimap, SEARCH_PREFIX_NAME).length > 0
-                ? getKeywords(argMultimap, SEARCH_PREFIX_NAME) :
-                preamble.isEmpty() ? new String[]{} : new String[]{argMultimap.getPreamble().trim()};
+                ? getKeywords(argMultimap, SEARCH_PREFIX_NAME)
+                : preamble.isEmpty() ? new String[]{} : new String[]{argMultimap.getPreamble().trim()};
         String[] phoneKeywords = getKeywords(argMultimap, SEARCH_PREFIX_PHONE);
         String[] emailKeywords = getKeywords(argMultimap, SEARCH_PREFIX_EMAIL);
         String[] addressKeywords = getKeywords(argMultimap, SEARCH_PREFIX_ADDRESS);
