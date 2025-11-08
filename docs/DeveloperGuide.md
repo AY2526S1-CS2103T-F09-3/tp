@@ -20,6 +20,9 @@ AAB-3 project:
 * [AB-3 User guide](https://se-education.org/addressbook-level3/UserGuide.html)
 * [AB-3 Developer guide](https://se-education.org/addressbook-level3/DeveloperGuide.html)
 
+Furthermore, the implementation of features listed below are adapted from and/or inspired by AddressBook-Level4 (AB-4):
+* Undo and redo
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
